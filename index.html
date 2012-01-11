@@ -1,9 +1,62 @@
-<html>
-<head>
-<title>LITMUS-RT</title>
-<meta http-equiv="refresh" content="0; URL=http://www.cs.unc.edu/~anderson/litmus-rt">
-</head>
-<body>
-<p>Redirecting to <a href="http://www.cs.unc.edu/~anderson/litmus-rt/">http://www.cs.unc.edu/~anderson/litmus-rt</a>.</p>
-</body>
-</html>
+ 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> 
+  <head> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+    <link rel="stylesheet" type="text/css" href="inc/format.css"/> 
+    <title>LITMUS RT: Linux Testbed for Multiprocessor Scheduling in Real-Time Systems</title> 
+  </head> 
+  <body>   
+    <div class="logobox"> 
+        <img src="inc/litmusrt.png" alt="LITMUS^RT: Linux Testbed for Multiprocessor Scheduling in Real-Time Systems" /> 
+   </div> 
+ 
+   <div class="nav"> 
+   <p>   
+   <a href="#about">about</a> - 
+   <a href="http://wiki.litmus-rt.org/litmus/Publications">publications</a> - 
+   <a href="http://wiki.litmus-rt.org/litmus/Releases">download</a> - 
+   <a href=""http://wiki.litmus-rt.org/litmus/InstallationInstructions">installation</a> -
+   <a href="http://wiki.litmus-rt.org/">documentation</a> -
+   <a href="credits.html">credits</a>
+   </p> 
+   </div> 
+ 
+    <div class="box"> 
+    <h2 id="about">About</h2> 
+    <p class="notopmargin"> 
+    The LITMUS<sup>RT</sup> patch is <strong>a (soft) real-time extension of the Linux
+    kernel</strong> with a focus on multiprocessor real-time scheduling and
+    synchronization. The Linux kernel is modified 
+    to support the sporadic task
+    model and modular scheduler plugins. Clustered, partitioned, and global scheduling
+    are included, and semi-partitioned scheduling is supported as well.
+    </p>
+    <h2>Goals</h2> 
+    <p class="notopmargin"> 
+    The primary purpose of the LITMUS<sup>RT</sup> project is to <strong>provide  a useful experimental platform for applied real-time systems research</strong>. To that end, LITMUS<sup>RT</sup> provides abstractions and interfaces within the kernel that simplify the prototyping of multiprocessor real-time scheduling and synchronization algorithms (compared to modifying a "vanilla" Linux kernel).
+    </p>
+    <p>As a secondary goal, LITMUS<sup>RT</sup> serves as a <strong>proof of concept</strong>, showing how algorithms such as Pfair schedulers can be implemented on current hardware. Finally, we hope that parts of LITMUS<sup>RT</sup> and the "lessons learned" may find value as blueprints/sources of inspiration for other  implementation efforts (both commercial and open source).
+    </p> 
+    <h2>Non-Goals</h2> 
+    <p class="notopmargin"> 
+    LITMUS<sup>RT</sup> is not a production-quality system, and there are currently no plans to turn it into one. LITMUS<sup>RT</sup> is not "stable," <em>i.e.</em>, interfaces and implementations may change without warning between releases. POSIX-compliance is not a goal; the LITMUS<sup>RT</sup>-API offers alternate system call interfaces. While we aim to follow Linux-coding standards, LITMUS<sup>RT</sup> is not targeted at being merged into mainline Linux. Rather, we hope that some of the ideas protoyped in LITMUS<sup>RT</sup> may eventually find adoption in Linux or other kernels.
+    </p> 
+    <h2>Current Version</h2> 
+    <p class="notopmargin"> 
+    The current version of LITMUS<sup>RT</sup> supports the Intel x86 platform and some ARM systems. It includes plugins for the following scheduling policies:
+    </p> 
+    <ul> 
+      <li> Partitioned EDF with synchronization support (PSN-EDF)</li> 
+      <li> Global EDF with synchronization support (GSN-EDF)</li> 
+      <li> Clustered EDF (C-EDF) </li> 
+      <li> PD<sup>2</sup>, with either staggered or aligned quanta (PFAIR)</li> 
+    </ul> 
+    <p> 
+    Please refer to the <a href="http://wiki.litmus-rt.org/litmus/Releases">download</a> and <a href="http://wiki.litmus-rt.org/litmus/InstallationInstructions">installation</a> wiki pages for details.
+    </p> 
+   </div>
+   
+     
+</body> 
+</html> 
