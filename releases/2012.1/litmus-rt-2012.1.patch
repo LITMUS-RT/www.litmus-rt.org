@@ -2031,7 +2031,7 @@ index 0000000..12af222
 +	BUG();
 +}
 +
-+static inline int request_exist_np_atomic(struct task_struct *t)
++static inline int request_exit_np_atomic(struct task_struct *t)
 +{
 +	return 0;
 +}
