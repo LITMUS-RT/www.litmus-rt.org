@@ -25,7 +25,7 @@
     <div class="box"> 
     <h2 id="about">About</h2> 
     <p class="notopmargin"> 
-    The LITMUS<sup>RT</sup> patch is <strong>a (soft) real-time extension of the Linux
+    The LITMUS<sup>RT</sup> patch is <strong>a real-time extension of the Linux
     kernel</strong> with a focus on multiprocessor real-time scheduling and
     synchronization. The Linux kernel is modified 
     to support the sporadic task
@@ -33,22 +33,10 @@
     are included, and semi-partitioned scheduling is supported as well.
     </p>
     <p>
-    LITMUS<sup>RT</sup> has been continuously maintained since 2006 and is still actively being developed.
+    LITMUS<sup>RT</sup> has been continuously maintained since 2006 and is still being actively developed.
     </p>
-    <h2>Goals</h2> 
-    <p class="notopmargin"> 
-    The primary purpose of the LITMUS<sup>RT</sup> project is to <strong>provide  a useful experimental platform for applied real-time systems research</strong>. To that end, LITMUS<sup>RT</sup> provides abstractions and interfaces within the kernel that simplify the prototyping of multiprocessor real-time scheduling and synchronization algorithms (compared to modifying a "vanilla" Linux kernel).
-    </p>
-    <p>As a secondary goal, LITMUS<sup>RT</sup> serves as a <strong>proof of concept</strong>, showing how algorithms such as Pfair schedulers and predictable multiprocessor locking protocols can be implemented on current hardware. Finally, we hope that parts of LITMUS<sup>RT</sup> and the "lessons learned" may find value as blueprints/sources of inspiration for other  implementation efforts (both commercial and open source).
-    </p> 
-    <h2>Non-Goals</h2> 
-    <p class="notopmargin"> 
-    LITMUS<sup>RT</sup> is a research prototype that is reasonably stable and tested&mdash;it works&mdash;but there are currently no plans to turn it into a production-quality system suitable for safety- or mission-critical applications.</p>
-
-    <p>Furthermore, LITMUS<sup>RT</sup>'s API is not "stable," that is, interfaces and implementations may change without warning between releases. POSIX-compliance is not a goal; the LITMUS<sup>RT</sup>-API offers alternate system call interfaces.</p>
-    <p>While we aim to follow Linux-coding standards, LITMUS<sup>RT</sup> is not targeted at being merged into mainline Linux. Rather, we hope that some of the ideas protoyped in LITMUS<sup>RT</sup> may eventually find adoption in Linux or other kernels.
-    </p> 
-    <h2>Current Version</h2> 
+    
+        <h2>Current Version</h2> 
     <p class="notopmargin"> 
 The current version of LITMUS<sup>RT</sup> is <strong>2014.2</strong> and is based on Linux&nbsp;3.10.41. 
     It was released on 6/10/2014 and includes plugins for the following
@@ -63,6 +51,40 @@ The current version of LITMUS<sup>RT</sup> is <strong>2014.2</strong> and is bas
     <p> 
     Please refer to the <a href="http://wiki.litmus-rt.org/litmus/Releases">download</a> and <a href="http://wiki.litmus-rt.org/litmus/InstallationInstructions">installation</a> wiki pages for details.
     </p> 
+
+    
+    <h2>Goals</h2> 
+    <p class="notopmargin"> 
+    The primary purpose of the LITMUS<sup>RT</sup> project is to <strong>provide  a useful experimental platform for applied real-time systems research</strong>. To that end, LITMUS<sup>RT</sup> provides abstractions and interfaces within the kernel that simplify the prototyping of multiprocessor real-time scheduling and synchronization algorithms (compared to modifying a "vanilla" Linux kernel).
+    </p>
+    <p>As a secondary goal, LITMUS<sup>RT</sup> serves as a <strong>proof of concept</strong>, showing how algorithms such as Pfair schedulers and predictable multiprocessor locking protocols can be implemented on current hardware. Finally, we hope that parts of LITMUS<sup>RT</sup> and the "lessons learned" may find value as blueprints/sources of inspiration for other  implementation efforts (both commercial and open source).
+    </p> 
+    <h2>Non-Goals</h2> 
+    <p class="notopmargin"> 
+    LITMUS<sup>RT</sup> is a research prototype that is reasonably stable and tested&mdash;it works&mdash;but there are currently no plans to turn it into a production-quality system suitable for safety- or mission-critical applications.</p>
+
+    <p>Furthermore, LITMUS<sup>RT</sup>'s API is not "stable," that is, interfaces and implementations may change without warning between releases. POSIX-compliance is not a goal; the LITMUS<sup>RT</sup>-API offers alternate system call interfaces.</p>
+    <p>While we aim to follow Linux-coding standards, LITMUS<sup>RT</sup> is not targeted at being merged into mainline Linux. Rather, we hope that some of the ideas protoyped in LITMUS<sup>RT</sup> may eventually find adoption in Linux or other kernels.
+    </p> 
+    
+    <h2>Credit</h2>
+    <p>The current maintainer and main developer behind  LITMUS<sup>RT</sup> is <a href="http://www.mpi-sws.org/~bbb">Bj&ouml;rn Brandenburg</a> of the <strong>Max Planck Institute for Software Systems (MPI-SWS)</strong>.</p>
+
+    <p> LITMUS<sup>RT</sup> was originally launched at the <strong>University of North Carolina at Chapel Hill</strong> under the direction of <a href="http://www.cs.unc.edu/~anderson/">James H. Anderson</a> and has benefited from <a href="credits.html">contributions by a number of researchers</a> over the years.
+    </p>
+    
+    <p>When referencing LITMUS<sup>RT</sup>, please cite two publications:
+    </p>
+    <ol>
+        <li>The <strong>original</strong> LITMUS<sup>RT</sup> paper: J. Calandrino, H. Leontyev, A. Block, U. Devi, and J. Anderson, "LITMUS<sup>RT</sup>: A Testbed for Empirically Comparing Real-Time Multiprocessor Schedulers ", Proceedings of the 27th IEEE Real-Time Systems Symposium, pp. 111-123, December 2006. </li>
+        <li>The <strong>description of the current version</strong>: B. Brandenburg, "Scheduling and Locking in Multiprocessor Real-Time Operating Systems", PhD thesis, UNC Chapel Hill, 2011.
+        </li>
+    </ol>
+    <p>While [1] is the first publication on LITMUS<sup>RT</sup>, the first public release of LITMUS<sup>RT</sup> was actually based on a reimplementation in 2007. All versions since 2007 are best described by the detailed description in [2].
+    </p>
+    
+    <p>To get in contact with the LITMUS<sup>RT</sup> community, please use the <a href="https://wiki.litmus-rt.org/litmus/Mailinglist">mailing list</a>.
+    
    </div>
    
      
