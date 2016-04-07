@@ -1,0 +1,995 @@
+<!DOCTYPE html>  
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>A Tour of LITMUS RT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style id="mkstylesheet">
+/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */html{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}h1{font-size:2em;margin:0.67em 0}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace, monospace;font-size:1em}button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}button{overflow:visible}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}input{line-height:normal}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height:auto}input[type="search"]{-webkit-appearance:textfield;box-sizing:content-box}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}fieldset{border:1px solid #c0c0c0;margin:0 2px;padding:0.35em 0.625em 0.75em}legend{border:0;padding:0}textarea{overflow:auto}optgroup{font-weight:bold}table{border-collapse:collapse;border-spacing:0}td,th{padding:0}*{box-sizing:border-box}input,select,textarea,button{font:13px/1.4 Helvetica,arial,nimbussansl,liberationsans,freesans,clean,sans-serif,"Segoe UI Emoji","Segoe UI Symbol"}body{font:13px/1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";color:#333;background-color:#fff}a{color:#4078c0;text-decoration:none}a:hover,a:active{text-decoration:underline}hr,.rule{height:0;margin:15px 0;overflow:hidden;background:transparent;border:0;border-bottom:1px solid #ddd}hr:before,.rule:before{display:table;content:""}hr:after,.rule:after{display:table;clear:both;content:""}h1,h2,h3,h4,h5,h6{margin-top:15px;margin-bottom:15px;line-height:1.1}h1{font-size:30px}h2{font-size:21px}h3{font-size:16px}h4{font-size:14px}h5{font-size:12px}h6{font-size:11px}small{font-size:90%}blockquote{margin:0}ul,ol{padding:0;margin-top:0;margin-bottom:0}ol ol,ul ol{list-style-type:lower-roman}ul ul ol,ul ol ol,ol ul ol,ol ol ol{list-style-type:lower-alpha}dd{margin-left:0}tt,code{font-family:Consolas, "Liberation Mono", Menlo, Courier, monospace;font-size:12px}pre{margin-top:0;margin-bottom:0;font:12px Consolas,"Liberation Mono",Menlo,Courier,monospace}html,body{color:black}#wrapper{font:16px helvetica,arial,freesans,clean,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6;padding:3px;background:#fff;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:solid 1px #dddddd !important;color:#333}p{margin:1em 0}a{color:#4183c4;text-decoration:none}#wrapper{background-color:#fff;padding:30px;margin:15px;font-size:16px;line-height:1.6}#wrapper>*:first-child{margin-top:0 !important}#wrapper>*:last-child{margin-bottom:0 !important}@media screen{#wrapper{border:solid 1px #ddd}}h1,h2,h3,h4,h5,h6{position:relative;margin-top:1em;margin-bottom:16px;font-weight:700;line-height:1.4;color:#333}h1{padding-bottom:.3em;font-size:2.25em;line-height:1.2;border-bottom:1px solid #eee}h2{padding-bottom:0.3em;font-size:1.75em;line-height:1.225;border-bottom:1px solid #eee}h3{font-size:1.5em;line-height:1.43}h4{font-size:1.25em}h5{font-size:1em}h6{color:#777;font-size:1em}p,blockquote,ul,ol,dl,table,pre{margin-top:0;margin-bottom:16px}hr{height:4px;padding:0;margin:16px 0;background-color:#e7e7e7;border:0 none}ul,ol{padding-left:2em}ul.no-list,ol.no-list{padding:0;list-style-type:none}ul ul,ul ol{margin-top:0;margin-bottom:0}ol ol,ol ul{margin-top:0;margin-bottom:0}li>p{margin-top:16px}dl{padding:0}dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}dl dd{padding:0 16px;margin-bottom:16px}blockquote{padding:0 15px;margin-left:0;color:#777;border-left:4px solid #ddd}blockquote>:first-child{margin-top:0}blockquote>:last-child{margin-bottom:0}table{display:block;width:100%;overflow:auto}table th{font-weight:700;padding:6px 13px;border:1px solid #ddd}table td{padding:6px 13px;border:1px solid #ddd}table tr{background-color:#fff;border-top:1px solid #ccc}table tr:nth-child(2n){background-color:#f8f8f8}img{max-width:100%;-moz-box-sizing:border-box;box-sizing:border-box}span.frame{display:block;overflow:hidden}span.frame>span{display:block;float:left;width:auto;padding:7px;margin:13px 0 0;overflow:hidden;border:1px solid #ddd}span.frame span img{display:block;float:left}span.frame span span{display:block;padding:5px 0 0;clear:both;color:#333}span.align-center{display:block;overflow:hidden;clear:both}span.align-center>span{display:block;margin:13px auto 0;overflow:hidden;text-align:center}span.align-center span img{margin:0 auto;text-align:center}span.align-right{display:block;overflow:hidden;clear:both}span.align-right>span{display:block;margin:13px 0 0;overflow:hidden;text-align:right}span.align-right span img{margin:0;text-align:right}span.float-left{display:block;float:left;margin-right:13px;overflow:hidden}span.float-left span{margin:13px 0 0}span.float-right{display:block;float:right;margin-left:13px;overflow:hidden}span.float-right>span{display:block;margin:13px auto 0;overflow:hidden;text-align:right}code,tt{padding:0;padding-top:.2em;padding-bottom:.2em;margin:0;font-size:85%;background-color:rgba(0,0,0,0.04);border-radius:3px}code:before,code:after{letter-spacing:-.2em;content:"\00a0"}tt:before,tt:after{letter-spacing:-.2em;content:"\00a0"}code br,tt br{display:none}del code{text-decoration:inherit;vertical-align:text-top}pre>code{padding:0;margin:0;font-size:100%;white-space:pre;background:transparent;border:0}.highlight{margin-bottom:16px}.highlight pre{padding:16px;margin-bottom:0;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7;border-radius:3px}pre{padding:16px;margin-bottom:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7;border-radius:3px;word-wrap:normal}pre code,pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}pre code:before,pre code:after{content:normal}pre tt:before,pre tt:after{content:normal}.poetry pre{font-family:Georgia, Garamond, serif !important;font-style:italic;font-size:110% !important;line-height:1.6em;display:block;margin-left:1em}.poetry pre code{font-family:Georgia, Garamond, serif !important;word-break:break-all;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;white-space:pre-wrap}sup,sub,a.footnote{font-size:1.4ex;height:0;line-height:1;vertical-align:super;position:relative}sub{vertical-align:sub;top:-1px}@media print{body{background:#fff}img,table,figure{page-break-inside:avoid}#wrapper{background:#fff;border:none !important;font-size:12px}pre code{overflow:visible}}@media screen{body.inverted{color:#eee !important;border-color:#555;box-shadow:none}.inverted #wrapper,.inverted hr,.inverted p,.inverted td,.inverted li,.inverted h1,.inverted h2,.inverted h3,.inverted h4,.inverted h5,.inverted h6,.inverted th,.inverted .math,.inverted caption,.inverted dd,.inverted dt,.inverted blockquote{color:#eee !important;border-color:#555;box-shadow:none}.inverted td,.inverted th{background:#333}.inverted pre,.inverted code,.inverted tt{background:#eeeeee !important;color:#111}.inverted h2{border-color:#555555}.inverted hr{border-color:#777;border-width:1px !important}::selection{background:rgba(157,193,200,0.5)}h1::selection{background-color:rgba(45,156,208,0.3)}h2::selection{background-color:rgba(90,182,224,0.3)}h3::selection,h4::selection,h5::selection,h6::selection,li::selection,ol::selection{background-color:rgba(133,201,232,0.3)}code::selection{background-color:rgba(0,0,0,0.7);color:#eeeeee}code span::selection{background-color:rgba(0,0,0,0.7) !important;color:#eeeeee !important}a::selection{background-color:rgba(255,230,102,0.2)}.inverted a::selection{background-color:rgba(255,230,102,0.6)}td::selection,th::selection,caption::selection{background-color:rgba(180,237,95,0.5)}.inverted{background:#0b2531;background:#252a2a}.inverted #wrapper{background:#252a2a}.inverted a{color:#acd1d5}}.highlight{background:#fff}.highlight .c{color:#998;font-style:italic}.highlight .err{color:#a61717;background-color:#e3d2d2}.highlight .k,.highlight .o{font-weight:700}.highlight .cm{color:#998;font-style:italic}.highlight .cp{color:#999;font-weight:700}.highlight .c1{color:#998;font-style:italic}.highlight .cs{color:#999;font-weight:700;font-style:italic}.highlight .gd{color:#000;background-color:#fdd}.highlight .gd .x{color:#000;background-color:#faa}.highlight .ge{font-style:italic}.highlight .gr{color:#a00}.highlight .gh{color:#999}.highlight .gi{color:#000;background-color:#dfd}.highlight .gi .x{color:#000;background-color:#afa}.highlight .go{color:#888}.highlight .gp{color:#555}.highlight .gs{font-weight:700}.highlight .gu{color:purple;font-weight:700}.highlight .gt{color:#a00}.highlight .kc,.highlight .kd,.highlight .kn,.highlight .kp,.highlight .kr{font-weight:700}.highlight .kt{color:#458;font-weight:700}.highlight .m{color:#099}.highlight .s{color:#d14}.highlight .n{color:#333}.highlight .na{color:teal}.highlight .nb{color:#0086b3}.highlight .nc{color:#458;font-weight:700}.highlight .no{color:teal}.highlight .ni{color:purple}.highlight .ne,.highlight .nf{color:#900;font-weight:700}.highlight .nn{color:#555}.highlight .nt{color:navy}.highlight .nv{color:teal}.highlight .ow{font-weight:700}.highlight .w{color:#bbb}.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:#099}.highlight .sb,.highlight .sc,.highlight .sd,.highlight .s2,.highlight .se,.highlight .sh,.highlight .si,.highlight .sx{color:#d14}.highlight .sr{color:#009926}.highlight .s1{color:#d14}.highlight .ss{color:#990073}.highlight .bp{color:#999}.highlight .vc,.highlight .vg,.highlight .vi{color:teal}.highlight .il{color:#099}.highlight .gc{color:#999;background-color:#EAF2F5}.type-csharp .highlight .k,.type-csharp .highlight .kt{color:blue}.type-csharp .highlight .nf{color:#000;font-weight:400}.type-csharp .highlight .nc{color:#2b91af}.type-csharp .highlight .nn{color:#000}.type-csharp .highlight .s,.type-csharp .highlight .sc{color:#a31515}.type-csharp .highlight .k,.type-csharp .highlight .kt{color:#00F}.type-csharp .highlight .nf{color:#000;font-weight:normal}.type-csharp .highlight .nc{color:#2B91AF}.type-csharp .highlight .nn{color:#000}.type-csharp .highlight .s,.type-csharp .highlight .sc{color:#A31515}body.dark #wrapper{background:transparent !important;box-shadow:none !important}
+#mkreplaced-toc{list-style-position:inside;padding:0;margin:0 0 0 1rem;list-style-type:none}#mkreplaced-toc li::before{content:''}#mkreplaced-toc li{font-size:1.5rem;line-height:1.5;font-weight:normal}#mkreplaced-toc li ul{font-size:1.3rem;font-weight:300;padding:.5rem 0;margin:0 0 0 1rem}#mkreplaced-toc li.missing{list-style-type:none !important}#mkreplaced-toc.max-1 ul,#mkreplaced-toc.max1 ul{display:none}#mkreplaced-toc.max-2 ul ul,#mkreplaced-toc.max2 ul ul{display:none}#mkreplaced-toc.max-3 ul ul ul,#mkreplaced-toc.max3 ul ul ul{display:none}#mkreplaced-toc.max-4 ul ul ul ul,#mkreplaced-toc.max4 ul ul ul ul{display:none}#mkreplaced-toc.max-5 ul ul ul ul ul,#mkreplaced-toc.max5 ul ul ul ul ul{display:none}.rtl{direction:rtl;text-align:right}@media print{body{background:white;line-height:1.4}html,body,#wrapper{max-width:100%;width:100%;-webkit-text-size-adjust:none;-webkit-perspective:none !important;box-sizing:border-box;width:auto;border:0;margin:0;padding:0;float:none;-moz-box-shadow:none !important;-webkit-box-shadow:none !important;box-shadow:none !important}mark{background:transparent !important}h1,h2,h3,h4,h5,h6{page-break-after:avoid}p,h2,h3{orphans:3;widows:3}section{page-break-before:avoid}#generated-toc,#firstdiff,#toc-title,#mkdocumentprogress,#mkincludechart,#mkprogressbar1,#mkprogressbar2,.mkscrollmeter,#alllinks,.popup{display:none !important}.suppressprintlinks a{color:inherit !important;text-decoration:none !important;border-bottom:none !important;cursor:default !important}.hrefafterlinktext #wrapper a:link:after,.hrefafterlinktext #wrapper a:visited:after{content:" (" attr(href) ") ";font-size:90%;opacity:0.9}.nocodebreak pre{page-break-inside:avoid}img,table,figure{page-break-inside:avoid}.breakfootnotes .footnotes{page-break-before:always}.breakfootnotes .footnotes hr{display:none}#mktoctitle{display:block}#print-title{display:block;border-bottom:solid 1px #666}#wrapper pre{white-space:pre;white-space:pre-wrap;word-wrap:break-word}#wrapper #generated-toc-clone,#wrapper #mkreplaced-toc{display:block}.task-list .task-list-item{list-style-type:none !important}.task-list .gh-complete.task-list-item .task-list-item-checkbox:before{content:'\2713';background:#838387}.task-list .task-list-item-checkbox{-webkit-appearance:none;position:relative}.task-list .task-list-item-checkbox:before{content:' ';border:solid 1px #aaa;width:1em;height:1em;display:block;border-radius:2px;left:-20px;top:-.75em;color:white;font-weight:bold;line-height:1;text-align:center;position:absolute}}
+#wrapper #generated-toc-clone, #wrapper #mkreplaced-toc, #wrapper #generated-toc-clone ul, #wrapper #mkreplaced-toc ul {
+    list-style-position: inside;
+}
+#wrapper #generated-toc-clone li.missing, #wrapper #mkreplaced-toc li.missing {
+    list-style-type: none!important;
+}
+#wrapper #generated-toc-clone, #wrapper #mkreplaced-toc {
+    list-style-type: upper-roman;
+}
+#wrapper #generated-toc-clone>li>ul, #wrapper #mkreplaced-toc>li>ul  {
+    list-style-type: decimal;
+}
+#wrapper #generated-toc-clone>li>ul>li>ul, #wrapper #mkreplaced-toc>li>ul>li>ul {
+    list-style-type: decimal-leading-zero;
+}
+#wrapper #generated-toc-clone>li>ul>li>ul>li>ul, #wrapper #mkreplaced-toc>li>ul>li>ul>li>ul {
+    list-style-type: lower-greek;
+}
+#wrapper #generated-toc-clone>li>ul>li>ul>li>ul>li>ul, #wrapper #mkreplaced-toc>li>ul>li>ul>li>ul>li>ul {
+    list-style-type: disc;
+}
+#wrapper #generated-toc-clone>li>ul>li>ul>li>ul>li>ul>li>ul, #wrapper #mkreplaced-toc>li>ul>li>ul>li>ul>li>ul>li>ul {
+    list-style-type: square;
+}
+#wrapper #generated-toc-clone,#wrapper #mkreplaced-toc{list-style-position:outside!important;margin-left:2rem;}
+</style>
+
+<style id="mkprintstyles">@media print{#wrapper #generated-toc-clone,#generated-toc{display:none!important;}hr{border:none!important;page-break-after:always!important;background:none!important;}h1:nth-of-type(n+2){page-break-before:always;}
+html,body,#wrapper{font-size:9pt!important;}
+}
+</style>
+
+
+</head>
+<body class="normal">
+  <div id="wrapper">
+      <h1 id="atouroflitmusrt">A Tour of LITMUS<sup>RT</sup></h1>
+
+<p><em>Björn B. Brandenburg, Mahircan Gül, and Manohar Vanga</em><br/><br/></p>
+
+<p><a href="http://www.litmus-rt.org">LITMUS<sup>RT</sup></a> is the <em><strong>Li</strong>nux <strong>T</strong>estbed for <strong>Mu</strong>ltiprocessor <strong>S</strong>cheduling in <strong>R</strong>eal-<strong>T</strong>ime Systems</em>. Its purpose is to provide a foundation for applied real-time systems research. To this end, LITMUS<sup>RT</sup></p>
+
+<ol>
+<li>adds <strong>predictable scheduling and synchronization policies</strong> to the Linux kernel,</li>
+<li>reduces the effort involved in <strong>prototyping</strong> new scheduling and synchronization polices in the kernel by offering a simplified scheduling policy plugin interface,</li>
+<li>provides <code>liblitmus</code> a <strong>userspace library</strong> to expose the added kernel functionality to applications, and</li>
+<li>comes with <em>Feather-Trace</em>, a <strong>low-overhead tracing</strong> framework.</li>
+</ol>
+
+<p>This guide provides an introduction to the user-facing parts of LITMUS<sup>RT</sup>, namely (3) and (4), and assumes that the kernel (with the LITMUS<sup>RT</sup> modifications in place) has already been compiled and is working. How to modify the kernel itself or how to develop new policy plugins is beyond the scope of this guide.</p>
+
+<p>This guide describes LITMUS<sup>RT</sup> as of version 2016.1 (released in April 2016).</p>
+
+<h2 id="booting">Booting</h2>
+
+<p>LITMUS<sup>RT</sup> boots just like any other Linux system. In most cases, no modifications need to be made to the Linux distribution&#8217;s init system.</p>
+
+<p>Linux supports a large number of boot parameters that can be passed to the kernel as a kernel command line argument. Most of these parameters are irrelevant to LITMUS<sup>RT</sup>; however, one of them, the <code>maxcpus</code> parameter, is particularly useful and worth highlighting. </p>
+
+<p>The <code>maxcpus</code> parameter allows limiting the number of processors used by the kernel. This can be used to instruct the kernel to leave some of the available processor cores unused. For instance, this is especially useful when conducting scalability experiments where the overhead of a scheduler (or some other component) needs to be obtained for a range of core counts.</p>
+
+<p>(Note: there also exists a static maximum supported processor count called <code>NR_CPUS</code> that is set as part of the kernel configuration at compile time. The <code>maxcpus</code> parameter cannot exceed <code>NR_CPUS</code>.)</p>
+
+<h2 id="schedulers">Schedulers</h2>
+
+<p>As already mentioned, LITMUS<sup>RT</sup> augments the Linux kernel with a number of predictable scheduling policies, which are realized as <strong>scheduler plugins</strong>.</p>
+
+<p>At all times, the <strong>active plugin</strong> determines the current scheduling policy in a LITMUS<sup>RT</sup> kernel. When the system boots up, it initially uses the dummy <em>Linux</em> plugin, which simply disables all LITMUS<sup>RT</sup> functionality (which is not needed during bootup). Hence, before using any LITMUS<sup>RT</sup> features, one of the available policy plugins must be activated with a <strong>plugin switch</strong> (as discussed in more detail below).</p>
+
+<p>As of version 2016.1, the following real-time scheduling policies are built into the LITMUS<sup>RT</sup> kernel:</p>
+
+<ul>
+<li>Linux : A dummy scheduling policy for disabling real-time functionality</li>
+<li>P-FP : Partitioned, <em>fixed-priority</em> scheduling</li>
+<li>PSN-EDF : Partitioned, dynamic-priority <em>earliest-deadline first</em> (EDF) scheduling</li>
+<li>GSN-EDF : Global EDF scheduling</li>
+<li>C-EDF : Clustered EDF scheduling, a hybrid of partitioned and global EDF scheduling</li>
+<li>PFAIR : Proportionate fair (Pfair) scheduling, based on the PD<sup>2</sup> algorithm</li>
+<li>P-RES : Reservation-based scheduling plugin, which supports a set of <em>partitioned</em> uniprocessor reservations:
+
+<ul>
+<li>periodic polling server</li>
+<li>sporadic polling server</li>
+<li>table-driven reservations</li>
+</ul></li>
+</ul>
+
+<p>These policy plugins form two groups: whereas the <strong>classic plugins</strong> &#8212; P-FP, PSN-EDF, GSN-EDF, C-EDF, and PFAIR &#8212; are <em>process-based</em> (i.e., one real-time &#8220;task&#8221; = one single-threaded Linux process), the much more recent <strong>reservation-based plugin</strong> P-RES implements first-class reservations (i.e., one real-time &#8220;task&#8221; = any number of threads/processes).</p>
+
+<p>The classic plugins have been a part of LITMUS<sup>RT</sup> since the first version from 2006/2007 and have been used in virtually all prior studies based on LITMUS<sup>RT</sup>.
+However, they impose certain limitations that may render them unsuitable for certain workloads (e.g., when a real-time process forks, the child process is <em>not</em> a real-time process to avoid overload). We expect future developments to focus increasingly on reservation-based plugins.</p>
+
+<p>While P-FP, PSN-EDF, P-RES, and GSN-EDF are built into the kernel by default, C-EDF
+and PFAIR are optional and can be de-selected during kernel
+configuration. During boot-up, built-in policies are loaded by the kernel and
+can then be later activated (one at a time) by the root user.</p>
+
+<p>At runtime, scheduler plugins are managed via a simple <code>/proc</code> interface that is exposed under <code>/proc/litmus</code>. All files under under <code>/proc/litmus</code> can be manually read or written for management purposes; however it is often easier and more
+convenient to use higher-level tools offered by <code>liblitmus</code>. In the following, we discuss a list of basic user-space commands related to plugin management, followed by an example.</p>
+
+<p>All the commands mentioned in the following must be executed as root.</p>
+
+<h3 id="listingallavailableschedulers">Listing All Available Schedulers</h3>
+
+<p>All loaded schedulers can be listed by running
+<code>cat /proc/litmus/plugins/loaded</code>.</p>
+
+<p>For example:</p>
+
+<pre><code>root@litmus:~ cat /proc/litmus/plugins/loaded 
+PFAIR
+P-FP
+P-RES
+PSN-EDF
+GSN-EDF
+Linux
+</code></pre>
+
+<hr />
+
+<h3 id="displayingtheactiveschedulerplugin">Displaying the Active Scheduler Plugin</h3>
+
+<p>The currently active scheduler is reported by the <code>showsched</code> tool. Alternatively, it can be printed with <code>cat /proc/litmus/active_plugin</code>.</p>
+
+<p>Example: </p>
+
+<pre><code>root@litmus:~ showsched
+Linux
+root@litmus:~ cat /proc/litmus/active_plugin
+Linux
+</code></pre>
+
+<p>After boot-up, the active scheduler is set to <code>Linux</code> by default.</p>
+
+<h3 id="changingtheactiveschedulerplugin">Changing the Active Scheduler Plugin</h3>
+
+<p>The active scheduler plugin can be selected with the <code>setsched</code> tool. Switching scheduling policies is permitted only when there are no active real-time tasks in the system.</p>
+
+<p>To activate a specific policy, invoke <code>setsched</code> with the policy name as the first argument. For example, to activate the GSN-EDF plugin, run <code>setsched GSN-EDF</code>.</p>
+
+<p>If <code>setsched</code> succeeds, then there is no output, as is typical for UNIX tools.</p>
+
+<p>Example:</p>
+
+<pre><code>root@litmus:~ setsched GSN-EDF
+root@litmus:~ showsched
+GSN-EDF
+root@litmus:~
+</code></pre>
+
+<p>To be presented with a text-based interface for selecting the active scheduler from the list of available plugins, run <code>setsched</code> without an argument.</p>
+
+<p>There can be only one active policy at any time. </p>
+
+<h3 id="selectingthec-edfandpfairclustersizes">Selecting the C-EDF and PFAIR Cluster Sizes</h3>
+
+<p>Under clustered scheduling, non-overlapping sets of processors are scheduled independently with a &#8220;global&#8221; policy. In LITMUS<sup>RT</sup>, clusters are created based on cache topology.</p>
+
+<p>The C-EDF scheduler builds clusters of processors <em>at activation time</em> based on the <em>current</em> value of the <em>cluster file</em> <code>/proc/litmus/plugins/C-EDF/cluster</code>. Valid values are “L1”, “L2”, “L3”, or “ALL”, where “ALL” indicates global scheduling (i.e., with “ALL” a single cluster containing all processor cores is built). On processors with private L1 caches, “L1” corresponds to partitioned scheduling (i.e., in this case, C-EDF builds one cluster for each processor).</p>
+
+<p>The PFAIR plugin also supports clustered scheduling based on the corresponding cluster file <code>/proc/litmus/plugins/PFAIR/cluster</code>.</p>
+
+<p>Note that clusters are configured when a plugin is activated, i.e, the cluster size cannot be changed while a plugin is active. To be effective, the desired cluster size has to be written to the cluster file <em>before</em> the scheduler switch.</p>
+
+<p>If a change in cluster size is desired, first switch to the <em>Linux</em> plugin, update the cluster file, and then switch back to the clustered plugin. For example:</p>
+
+<pre><code># switch to Linux plugin
+setsched Linux
+# configure L2-based clusters
+echo L2 &gt; /proc/litmus/plugins/C-EDF/cluster
+# switch back to C-EDF
+setsched C-EDF
+</code></pre>
+
+<h2 id="workingwithreservationsinp-res">Working with Reservations in P-RES</h2>
+
+<p>In contrast to other LITMUS<sup>RT</sup> plugins, reservations are first-class entities in <code>P-RES</code> that exist independently of tasks. In particular, they must be created <em>before</em> any task can be launched, and they continue to exist even after all tasks have terminated. Multiple tasks or threads can be assigned to the same reservation. If a task forks, both the parent and the child remain in the same reservation.</p>
+
+<h3 id="partitionedreservations">Partitioned Reservations</h3>
+
+<p>To create new reservations, use the tool <code>resctl</code>. The tool has an online help message that can be triggered with <code>resctl -h</code>, which explains all options. In the following, we explain how to create partitioned, per-processor reservations.</p>
+
+<h3 id="reservationtypes">Reservation Types</h3>
+
+<p>The current version of the <code>P-RES</code> plugin supports three reservation types:</p>
+<pre><code class="(null)">polling-periodic (PP)
+polling-sporadic (PS)
+table-driven (TD)</code></pre>
+
+<p>Additional common reservations types (e.g., CBS, sporadic servers, etc.) have been developed in a separate branch and are expected to be released in a future version of LITMUS<sup>RT</sup>.</p>
+
+<p>The most simple reservation type is the polling reservation, which comes in two flavors: classic <em>periodic polling reservations</em> (PP), and more flexible <em>sporadic polling reservations</em> (SP). The latter is ideally suited for encapsulating sporadic and periodic real-time tasks, whereas the former is useful primarily if there is a need for fixed, known replenishment times.</p>
+
+<p>In the following examples, we use sporadic polling reservations.</p>
+
+<h3 id="creatingareservation">Creating a Reservation</h3>
+
+<p>Each reservation is identified by a <strong>reservation ID (RID)</strong>, which is simply a non-negative number (like a PID). However, there are two important differences between PIDs and RIDs:</p>
+
+<ol>
+<li>In contrast to PIDs, RIDs are not automatically assigned. Rather, the desired RID must be specified when the reservation is created.</li>
+<li>The same RID may be used on multiple processors (i.e., RIDs are not unique systemwide). Hence it is important to specify the processor both when creating reservations and when attaching processes to reservations.</li>
+</ol>
+
+<p>Use the following invocation to create a new sporadic polling reservation with RID 123 on core 0:</p>
+
+<pre><code>resctl -n 123 -t polling-sporadic -c 0
+</code></pre>
+
+<p>Unless there is an error, no output is generated.</p>
+
+<p>The above command created a polling reservation with a default budget of 10ms and a replenishment period of 100ms.</p>
+
+<p>To specify other periods and/or budgets, use the <code>-p</code> and <code>-b</code> options, respectively.</p>
+
+<p>For instance, use the following invocation to create a sporadic polling reservation with RID 1000 on core 1 with a budget of 25ms and a replenishment period of 50ms:</p>
+
+<pre><code>resctl -n 1000 -t polling-sporadic -c 1 -b 25 -p 50
+</code></pre>
+
+<p>By default, <code>resctl</code> creates EDF-scheduled polling reservations. To create fixed-priority reservations, simply set a numeric priority explicitly with the <code>-q</code> option. In LITMUS<sup>RT</sup>, a lower numeric priority value corresponds to a higher priority, i.e., 1 is the highest priority in LITMUS<sup>RT</sup> and 511 is (currently) the lowest possible priority. (The number of distinct priority levels available can be easily changed by recompiling the kernel.)</p>
+
+<h3 id="deletingareservation">Deleting a Reservation</h3>
+
+<p>There is currently no mechanism to delete individual reservations. Once created, a reservation persists until the scheduler plugin is switched.</p>
+
+<p>To delete <em>all</em> reservations, simply switch the active scheduler plugin to Linux and back again.</p>
+<pre><code class="(null)">setsched Linux
+setsched P-RES</code></pre>
+
+<h2 id="real-timetasks">Real-time Tasks</h2>
+
+<p>There are two ways of running real-time tasks in
+<a href="http://www.litmus-rt.org">LITMUS<sup>RT</sup></a>. The first is to use the
+<code>liblitmus</code> API to program a custom real-time application, and the second is to use the
+<code>rt_launch</code> tool for executing arbitrary Linux binaries as LITMUS<sup>RT</sup> real-time tasks.</p>
+
+<p>Common to
+both cases, there are a couple of parameters that should be set
+before starting a real-time task:</p>
+
+<ul>
+<li><strong>Worst-case execution time (WCET)</strong> : The maximum execution time of any job
+of the task. In LITMUS<sup>RT</sup>, scheduler plugins typically interpret this value as a <em>budget</em> (and not as a statement about the true maximum).</li>
+<li><strong>Period</strong> : The minimum activation interval of the task. Scheduler plugins (typically) enforce this parameter.</li>
+<li><strong>Deadline</strong> : The relative deadline of the task. If not
+specified, the period is used as the implicit deadline.</li>
+<li><strong>Offset</strong> : The delay between a <em>task system release</em> (see the discussion of <code>release_ts</code> below) and the release of the task&#8217;s first job. This parameter defaults to zero and is rarely set.</li>
+<li><strong>Partition</strong> : The partition (or cluster in the case of C-EDF or PFAIR) to which a task belongs. Unnecessary for global schedulers.</li>
+</ul>
+
+<p>It is further possible to specify a task&#8217;s &#8220;hardness&#8221; as its class; however, <em>this parameter is ignored</em> by all currently included schedulers and has no effect.</p>
+
+<ul>
+<li><strong>Class</strong> : Tasks are classified into hard real-time (HRT), soft
+real-time (SRT) and best-effort (BE) in LITMUS<sup>RT</sup> . If not specified otherwise, tasks default to being HRT tasks.</li>
+</ul>
+
+<p>In the following, we provide a brief description of the tools in <code>liblitmus</code> related to running real-time tasks. For detailed usage information, run the mentioned commands without any parameters.</p>
+
+<h3 id="simulatingcpu-boundworkloadswithrtspin">Simulating CPU-bound workloads with <code>rtspin</code></h3>
+
+<p>The tool <code>rtspin</code> is a simple test task distributed with <code>liblitmus</code> that follows the first approach, i.e., it uses the API to programmatically &#8220;become&#8221; a real-time task when launched. The tool executes a simple, configurable spin loop that is useful for simulating CPU-bound workloads. It can be used for
+test and debugging purposes.</p>
+
+<pre><code>Usage:
+    (1) rtspin [COMMON-OPTS] WCET PERIOD DURATION
+    (2) rtspin [COMMON-OPTS] -f FILE [-o COLUMN] WCET PERIOD
+    (3) rtspin -l
+    (4) rtspin -B
+
+Modes: 
+    (1) run as periodic task with given WCET and PERIOD
+    (2) as (1), but load per-job execution times from CSV file
+    (3) Run calibration loop (how accurately are target runtimes met?)
+    (4) Run background, non-real-time cache-thrashing loop (w/ -m).
+
+    -w                wait for synchronous release
+    -v                verbose (prints PID)
+    -p CPU            physical partition or cluster to assign to
+    -r VCPU           reservation to attach to 
+    -d DEADLINE       relative deadline, implicit by default (in ms)
+    -q PRIORITY       priority to use (ignored by EDF plugins, highest=1, lowest=511)
+    -c be|srt|hrt     task class (best-effort, soft real-time, hard real-time)
+    -l                run calibration loop
+    -m RSS            set working set size (memory accessd by job)
+    -e                turn on budget enforcement,disabled by default
+    wcet, period      reservation parameters (in ms)
+
+    WCET and PERIOD are milliseconds, DURATION is seconds.
+    CRITICAL SECTION LENGTH is in milliseconds.
+    RESIDENT SET SIZE (RSS) is in number of pages
+</code></pre>
+
+<p>For example, the following command executes the task for 5 seconds on core 2 with a period of 10 ms and a WCET of 1.5 ms.</p>
+
+<pre><code>rtspin -p 2 1.5 10 5
+</code></pre>
+
+<p>For partitioned plugins (i.e., P-FP, PSN-EDF, P-RES), the partition number ranges from 0 to <em>m</em> - 1, where <em>m</em> is the number of CPUs.</p>
+
+<p>For global schedulers (i.e., GSN-EDF, and PFAIR and C-EDF with the default cluster size &#8220;ALL&#8221;), the partition option (<code>-p</code>) is irrelevant and should be omitted.</p>
+
+<p>Note that priority assignment is not carried out automatically under fixed-priority schedulers. To specify a task&#8217;s priority, use the <code>-q</code> option, which accepts priorities in the range 1&#8211;511, where 1 is the highest-possible priority. If the <code>-q</code> option is omitted, <code>rtspin</code> defaults to the lowest-possible priority (511 in the current LITMUS<sup>RT</sup> version).</p>
+
+<p>When testing schedulers or learning to use LITMUS<sup>RT</sup>, we recommend to run <code>rtspin</code> with the <code>-v</code> option, which provides some useful feedback on the execution of each job, including the task&#8217;s PID and each job&#8217;s absolute deadline.</p>
+
+<h3 id="launchingrtspininareservation">Launching <code>rtspin</code> in a Reservation</h3>
+
+<p>The <code>rtspin</code> test application can be assigned to a pre-existing reservation with the <code>-r</code> option.</p>
+
+<p>For example, to assign an <code>rtspin</code> process that runs for three seconds with period 100 and execution time 10 to reservation 1000 on core 1, launch <code>rtspin</code> like this:</p>
+<pre><code class="(null)"> rtspin -p 1 -r 1000 10 100 3</code></pre>
+
+<p>Under reservation-based schedulers, task priorities are irrelevant (i.e., ignored). Instead, priorities need to be assigned to reservations, as mentioned in the section titled <em>Creating a reservation</em>.</p>
+
+<h3 id="launchingarbitrarybinarieswithrt_launch">Launching Arbitrary Binaries with <code>rt_launch</code></h3>
+
+<p>Sometimes it is useful to run arbitrary tasks in LITMUS<sup>RT</sup> real-time mode, either to run &#8220;legacy&#8221; code or for testing purposes. For this purpose, <code>liblitmus</code> provides a tool called <code>rt_launch</code> that allows executing arbitrary binaries as real-time tasks with arbitrary parameters. (In some sense, <code>rt_launch</code> can be thought of as the opposite of <code>nice</code>.)</p>
+
+<p>The tool accepts mostly the same parameters as <code>rtspin</code>, but instead of a test duration, simply specify a binary that is to be executed. Any parameters not consumed by <code>rt_launch</code> will be passed as arguments to the to-be-launched binary.</p>
+
+<pre><code>Usage: rt_launch OPTIONS wcet period program [arg1 arg2 ...]
+    -w                wait for synchronous release
+    -v                verbose (prints PID)
+    -p CPU            physical partition or cluster to assign to
+    -r VCPU           virtual CPU or reservation to attach to (irrelevant to most plugins)
+    -R                create sporadic reservation for task (with VCPU=PID)
+    -d DEADLINE       relative deadline, implicit by default (in ms)
+    -o OFFSET         offset (also known as phase), zero by default (in ms)
+    -q PRIORITY       priority to use (ignored by EDF plugins, highest=1, lowest=511)
+    -c be|srt|hrt     task class (best-effort, soft real-time, hard real-time)
+    -e                turn off budget enforcement (DANGEROUS: can result in lockup)
+    wcet, period      reservation parameters (in ms)
+    program           path to the binary to be launched
+</code></pre>
+
+<p>For example, the below command launches the <code>find</code> utility on processor 1 as a
+&#8220;real-time task&#8221; with a period of 100ms and a budget of 10ms. </p>
+
+<pre><code>rt_launch -p 1 10 100 find /
+</code></pre>
+
+<p>By default, the launched binary will be subject to budget enforcement to prevent runaway processes from taking over the processor. For example, by launching <code>find</code> with a large period (say, 5 seconds), the effects of budget enforcement become easy to notice.</p>
+
+<pre><code>rt_launch -p 1 10 5000 find /
+</code></pre>
+
+<p>Note that it may be required to pass <code>--</code> (two dashes) after the last argument intended for <code>rt_launch</code> to stop it from processing options intended for the to-be-launched program. For example, suppose the goal is to print only files ending in <code>.c</code>. The following invocation will result in an error because <code>rt_launch</code> will try to interpret the option <code>-iname</code> and fail.</p>
+
+<pre><code># Will fail; rt_launch does not understand -iname.
+rt_launch -p 1 10 100 find / -iname '*.c'
+</code></pre>
+
+<p>Instead, use the following invocation to clearly separate options for <code>rt_launch</code> from those for <code>find</code>.</p>
+
+<pre><code># Works as expected; rt_launch stops option processing at '--'.
+rt_launch -p 1 10 100 -- find / -iname '*.c'
+</code></pre>
+
+<p>Budget enforcement can be turned off with the <code>-e</code> option, but this is dangerous: under a classic plugin, a CPU-bound task <em>will</em> monopolize the CPU and likely lock up the system. Under the newer reservation-based schedulers, the budget enforcement is provided by the reservations (and not on a per-task basis) and cannot be turned off.</p>
+
+<p>Under fixed-priority scheduling, don&#8217;t forget to set a priority with the <code>-q</code> option.</p>
+
+<h3 id="launchingarbitrarybinariesinareservation">Launching Arbitrary Binaries in a Reservation</h3>
+
+<p>The <code>rtspin</code> options related to reservations (<code>-p</code> and <code>-r</code>) are also understood by the <code>rt_launch</code> utility. Similar to the prior reservation example, the following command executes <code>find</code> in reservation 1000 on core 1:</p>
+
+<pre><code>rt_launch -p 1 -r 1000 10 100 find /
+</code></pre>
+
+<h3 id="attachinganalreadyrunningtasktoareservation">Attaching an Already Running Task to a Reservation</h3>
+
+<p>It is also possible to assign an already running, non-real-time process or thread to a reservation. This can be accomplished with the <code>-a</code> (attach) option of <code>resctl</code>.</p>
+
+<p>For example, to move the current shell into reservation 1000 on core 1, execute the following command:</p>
+
+<pre><code>resctl -a $$ -r 1000 -c 1
+</code></pre>
+
+<p>As a result, the shell will now be running as a real-time task, subject to the priority and budget replenishment of the given reservation. </p>
+
+<h3 id="settingupasynchronoustasksystemreleasewithrelease_ts">Setting Up a (Synchronous) Task System Release with <code>release_ts</code></h3>
+
+<p>In many cases, tasks should not commence running before <em>all</em> tasks have finished initialization. Furthermore, it can simplify a system&#8217;s design and analysis if tasks are known to share a common &#8220;time zero&#8221;.</p>
+
+<p>This is especially true for periodic tasks&#8212;typical schedulability analysis for periodic tasks assumes either <em>synchronous</em> task systems, where all tasks release their first job at a common time zero, or <em>asynchronous</em> task systems, where each task releases its first job at a <em>known</em> offset (or <em>phase</em>) relative to a shared time zero.</p>
+
+<p>For these reasons, LITMUS<sup>RT</sup> has explicit support for setting up and triggering synchronous task system releases (which are basically a form of barrier synchronization). </p>
+
+<p>The tools <code>rtspin</code> and <code>rt_launch</code> support this feature with the <code>-w</code> option, which means <em>wait for a (synchronous) task system
+release</em>. When set, tasks do not start executing
+immediately, but wait for a synchronous release point.</p>
+
+<p>The synchronous task release can be triggered by running <code>release_ts</code>. The number of tasks waiting for release, along with the total number of active real-time tasks, can be listed with
+<code>cat /proc/litmus/stats</code>.</p>
+
+<p>Example:</p>
+
+<pre><code>$ setsched GSN-EDF
+# launch four tasks waiting for release
+$ rtspin -w 10 100 4 &amp;
+$ rtspin -w 10 100 4 &amp;
+$ rtspin -w 10 100 4 &amp;
+$ rtspin -w 10 100 4 &amp;
+$ cat /proc/litmus/stats 
+real-time tasks   = 4
+ready for release = 4
+$ release_ts 
+Released 4 real-time tasks.
+</code></pre>
+
+<p>Note that it is possible to specify a number of tasks to wait for before triggering the synchronous release with the <code>-f</code> option of <code>release_ts</code>.</p>
+
+<h1 id="overheadtracing">Overhead Tracing</h1>
+
+<p>We next discuss how to trace and process system overheads (such as context switch costs, scheduling costs, task wake-up latencies, etc.).</p>
+
+<h2 id="recordingoverheadswithfeather-trace">Recording Overheads with Feather-Trace</h2>
+
+<p>To record overheads, use the high-level wrapper script <code>ft-trace-overheads</code> in a system running a LITMUS<sup>RT</sup> kernel that has been compiled with overhead tracing enabled in the kernel configuration (i.e., <code>CONFIG_SCHED_OVERHEAD_TRACE=y</code>).</p>
+
+<p>Use the script as follows. First, activate the scheduler that you are interested in (e.g., <code>GSN-EDF</code>). Then simply run <code>ft-trace-overheads</code> (as root) with a given name to identify the experiment. While <code>ft-trace-overheads</code> is running, execute your benchmark to exercise the kernel. When the benchmark has completed, terminate <code>ft-trace-overheads</code> by pressing the enter key.</p>
+
+<p>Example:</p>
+
+<pre><code>$ setsched GSN-EDF
+$ ft-trace-overheads my-experiment
+[II] Recording /dev/litmus/ft_cpu_trace0 -&gt; overheads_host=rts5_scheduler=GSN-EDF_trace=my-experiment_cpu=0.bin
+[II] Recording /dev/litmus/ft_cpu_trace1 -&gt; overheads_host=rts5_scheduler=GSN-EDF_trace=my-experiment_cpu=1.bin
+[II] Recording /dev/litmus/ft_cpu_trace2 -&gt; overheads_host=rts5_scheduler=GSN-EDF_trace=my-experiment_cpu=2.bin
+[II] Recording /dev/litmus/ft_cpu_trace3 -&gt; overheads_host=rts5_scheduler=GSN-EDF_trace=my-experiment_cpu=3.bin
+[II] Recording /dev/litmus/ft_msg_trace0 -&gt; overheads_host=rts5_scheduler=GSN-EDF_trace=my-experiment_msg=0.bin
+[II] Recording /dev/litmus/ft_msg_trace1 -&gt; overheads_host=rts5_scheduler=GSN-EDF_trace=my-experiment_msg=1.bin
+[II] Recording /dev/litmus/ft_msg_trace2 -&gt; overheads_host=rts5_scheduler=GSN-EDF_trace=my-experiment_msg=2.bin
+[II] Recording /dev/litmus/ft_msg_trace3 -&gt; overheads_host=rts5_scheduler=GSN-EDF_trace=my-experiment_msg=3.bin
+Press Enter to end tracing...
+# [run your benchmark]
+# [press Enter when done]
+Ending Trace...
+Disabling 4 events.
+Disabling 4 events.
+Disabling 4 events.
+Disabling 4 events.
+Disabling 18 events.
+Disabling 18 events.
+Disabling 18 events.
+Disabling 18 events.
+/dev/litmus/ft_msg_trace3: XXX bytes read.
+/dev/litmus/ft_msg_trace0: XXX bytes read.
+/dev/litmus/ft_msg_trace1: XXX bytes read.
+/dev/litmus/ft_cpu_trace2: XXX bytes read.
+/dev/litmus/ft_cpu_trace1: XXX bytes read.
+/dev/litmus/ft_cpu_trace3: XXX bytes read.
+/dev/litmus/ft_cpu_trace0: XXX bytes read.
+/dev/litmus/ft_msg_trace2: XXX bytes read.
+</code></pre>
+
+<p>For performance reasons, Feather-Trace records overhead data into separate per-processor trace buffers, and treats core-local events and inter-processor interrupts (IPIs) differently. Correspondingly, <code>ft-trace-overheads</code> records two trace files for each core in the system.</p>
+
+<ol>
+<li><p>The file <code>overheads…cpu=$CPU.bin</code> contains all overhead samples related to CPU-local events such as context switches.</p></li>
+<li><p>The file <code>overheads…msg=$CPU.bin</code> contains overhead samples stemming from IPIs such as reschedule notifications related to the processor <code>$CPU</code>.</p></li>
+</ol>
+
+<h3 id="keyvalueencoding">Key=Value Encoding</h3>
+
+<p>To aid with keeping track of relevant setup information, the tool encodes the system&#8217;s host name and the currently active scheduler plugin in a simple <code>key=value</code> format in the filename.</p>
+
+<p>We recommend to adopt the same encoding scheme in the experiment tags. For example, when running an experiment named &#8220;foo&#8221; with (say) 40 tasks and a total utilization of 75 percent, we recommend to launch <code>ft-trace-overheads</code> as <code>ft-trace-overheads foo_n=40_u=75</code>, as the additional parameters will be added transparently to the final trace file name.</p>
+
+<p>Example:</p>
+
+<pre><code>ft-trace-overheads foo_n=40_u=75
+[II] Recording /dev/litmus/ft_cpu_trace0 -&gt; overheads_host=rts5_scheduler=GSN-EDF_trace=foo_n=40_u=75_cpu=0.bin
+…
+</code></pre>
+
+<p>However, this convention is purely optional.</p>
+
+<h3 id="automatingft-trace-overheads">Automating <code>ft-trace-overheads</code></h3>
+
+<p>It can be useful to terminate <code>ft-trace-overheads</code> from another script by sending a signal. For this purpose, provide the <code>-s</code> flag to <code>ft-trace-overheads</code>, which will make it terminate cleanly when it receives the <code>SIGUSR1</code> signal.</p>
+
+<p>When recording overheads on a large platform, it can take a few seconds until all tracer processes have finished initialization. To ensure that all overheads are being recorded, the benchmark workload should not be executed until initialization is complete. To this end, it is guaranteed that the string &#8220;to end tracing&#8230;&#8221; does not appear in the script&#8217;s output (on STDOUT) until initialization is complete on all cores.</p>
+
+<h2 id="whatdoesfeather-tracedatalooklike">What does Feather-Trace data look like?</h2>
+
+<p>Feather-Trace produces &#8220;raw&#8221; overhead files. Each file contains simple event records. Each event record consists of the following fields (➞ <a href="https://github.com/LITMUS-RT/feather-trace-tools/blob/master/include/timestamp.h#L18">see definition</a>):</p>
+
+<ul>
+<li>an event ID (e.g., <code>SCHED_START</code>),</li>
+<li>the ID of the processor on which the event was recorded (0&#8211;255),</li>
+<li>a per-processor sequence number (32 bits),</li>
+<li>the PID of the affected or involved process (if applicable, zero otherwise),</li>
+<li>the type of the affected or involved process (best-effort, real-time, or unknown),</li>
+<li>a timestamp (48 bits),</li>
+<li>a flag that indicates whether any interrupts occurred since the last recorded event, and</li>
+<li>an approximate interrupt count (0&#8211;31, may overflow).</li>
+</ul>
+
+<p>The timestamp is typically a raw cycle count (e.g., obtained with <code>rdtsc</code>). However, for certain events such as <code>RELEASE_LATENCY</code>, the kernel records the time value directly in nanoseconds.</p>
+
+<p><strong>Note</strong>: Feather-Trace records data in native endianness. When processing data files on a machine with a different endianness, endianness swapping is required prior to further processing (see <code>ftsort</code> below).</p>
+
+<h2 id="eventpairs">Event Pairs</h2>
+
+<p>Most Feather-Trace events come as pairs. For example, context-switch overheads are measured by first recording a <code>CXS_START</code> event prior to the context switch, and then a <code>CXS_END</code> event just after the context switch. The context-switch overhead is given by the difference of the two timestamps.</p>
+
+<p>There are two event pairs related to scheduling: the pair <code>SCHED_START</code>-<code>SCHED_END</code> records the scheduling overhead prior to a context switch, and the pair <code>SCHED2_START</code>-<code>SCHE2D_END</code> records the scheduling overhead after a context switch (i.e, any clean-up).</p>
+
+<p>To see which event records are available, simply record a trace with <code>ft-trace-overheads</code> and look through it with <code>ftdump</code> (see below), or have a look at the list of event IDs (➞ <a href="https://github.com/LITMUS-RT/feather-trace-tools/blob/master/include/timestamp.h#L41">see definitions</a>).</p>
+
+<h2 id="low-leveltools">Low-Level Tools</h2>
+
+<p>The feather-trace-tools repository provides three main low-level tools that operate on raw overhead trace files. These tools provide the basis for the higher-level tools discussed below.</p>
+
+<ol>
+<li><p><code>ftdump</code> prints a human-readable version of a trace file&#8217;s contents. This is useful primarily for manual inspection. Run as <code>ftdump &lt;MY-TRACE-FILE&gt;</code>.</p></li>
+<li><p><code>ftsort</code> sorts a Feather-Trace binary trace file by the recorded sequence numbers, which is useful to normalize traces prior to further processing in case events were stored out of order. Run as <code>ftsort &lt;MY-TRACE-FILE&gt;</code>. <code>ftsort</code> can also carry-out endianness swaps if needed. Run <code>ftsort -h</code> to see the available options.</p></li>
+<li><p><code>ft2csv</code> is used to extract overhead data from raw trace files. For example, to extract all context-switch overhead samples, run <code>ft2csv CXS &lt;MY-TRACE-FILE&gt;</code>. Run <code>ft2csv -h</code> to see the available options.</p></li>
+</ol>
+
+<p>By default, <code>ft2csv</code> produces CSV data. It can also produce binary output compatible with NumPy&#8217;s <code>float32</code> format, which allows for efficient processing of overhead data with NumPy&#8217;s <code>numpy.memmap()</code> facility.</p>
+
+<h2 id="high-leveltools">High-Level Tools</h2>
+
+<p>The feather-trace-tools repository provides a couple of scripts around <code>ftsort</code> and <code>ft2csv</code> that automate common post-processing steps. We recommend that novice users stick to these high-level scripts until they have acquired some familiarity with the LITMUS<sup>RT</sup> tracing infrastructure.</p>
+
+<p>Post-processing of (a large collection of) overhead files typically involves:</p>
+
+<ol>
+<li><p>sorting all files with <code>ftsort</code>,</p></li>
+<li><p>splitting out all recorded overhead samples from all trace files,</p></li>
+<li><p>combining data from per-cpu trace files and from traces with different task counts, system utilizations, etc. into merged data files for further processing,</p></li>
+<li><p>counting how many events of each type were recorded,</p></li>
+<li><p>shuffling and truncating all sample files, and finally</p></li>
+<li><p>extracting simple statistics such as the observed median, mean, and maximum values.</p></li>
+</ol>
+
+<p>Note that step 4 is required to allow a statistically meaningful comparison of the sampled maximum overheads. (That is, to avoid sampling bias, do not compare the maxima of trace files containing a different number of samples.)</p>
+
+<p>Corresponding to the above steps, the feather-trace-tools repository provides a number of scripts that automate these tasks.</p>
+
+<h3 id="sortingfeather-tracefiles">Sorting Feather-Trace Files</h3>
+
+<p>The <code>ft-sort-traces</code> script simply runs <code>ftsort</code> on all trace files. Invoke as <code>ft-sort-traces &lt;MY-TRACE-FILES&gt;</code>. We recommended to keep a log of all post-processing steps with <code>tee</code>.</p>
+
+<p>Example:</p>
+
+<pre><code>ft-sort-traces overheads_*.bin 2&gt;&amp;1 | tee -a overhead-processing.log
+</code></pre>
+
+<p>Sorting used to be an essential step, but in recent versions of LITMUS<sup>RT</sup>, most traces do not contain any out-of-order samples.</p>
+
+<h3 id="extractingoverheadsamples">Extracting Overhead Samples</h3>
+
+<p>The script <code>ft-extract-samples</code> extracts all samples from all provided files with <code>ft2csv</code>.</p>
+
+<p>Example:</p>
+
+<pre><code>ft-extract-samples overheads_*.bin 2&gt;&amp;1 | tee -a overhead-processing.log
+</code></pre>
+
+<p>The underlying <code>ft2csv</code> tool automatically discards any samples that were disturbed by interrupts.</p>
+
+<hr />
+
+<h3 id="combiningsamples">Combining Samples</h3>
+
+<p>The script <code>ft-combine-samples</code> combines several data files into a single data file for further processing. This script assumes that file names follow the specific key=value naming convention already mentioned above:</p>
+
+<pre><code>&lt;basename&gt;_key1=value1_key2=value2...keyN=valueN.float32
+</code></pre>
+
+<p>The script simply strips certain key=value pairs to concatenate files that have matching values for all parameters that were not stripped. For instance, to combine all trace data irrespective of task count, as specified by &#8220;<em>n=<NUMBER></em>&#8221;, invoke as <code>ft-combine-samples -n &lt;MY-DATA-FILES&gt;</code>. The option <code>--std</code> combines files with different task counts (<code>_n=</code>), different utilizations (<code>_u=</code>), for all sequence numbers (<code>_seq=</code>), and for all CPU IDs (<code>_cpu=</code> and <code>_msg=</code>).</p>
+
+<p>Example:</p>
+
+<pre><code>ft-combine-samples --std overheads_*.float32 2&gt;&amp;1 | tee -a overhead-processing.log
+</code></pre>
+
+<h3 id="countingsamples">Counting Samples</h3>
+
+<p>The script <code>ft-count-samples</code> simply looks at all provided trace files and, for each overhead type, determines the minimum number of samples recorded. The output is formatted as a CSV file.</p>
+
+<p>Example:</p>
+
+<pre><code>ft-count-samples  combined-overheads_*.float32 &gt; counts.csv
+</code></pre>
+
+<h3 id="randomsampleselection">Random Sample Selection</h3>
+
+<p>To allow for an unbiased comparison of the sample maxima, it is important to use the same number of samples for all compared traces. For example, to compare scheduling overhead under different schedulers, make sure you use the same number of samples for all schedulers. If the traces contain a different number of samples (which is very likely), then a subset must be selected prior to computing any statistics.</p>
+
+<p>The approach chosen here is to randomly shuffle and then truncate (a copy of) the files containing the samples. This is automated by the script <code>ft-select-samples</code>.</p>
+
+<p><strong>Note</strong>: the first argument to <code>ft-select-samples</code> <em>must</em> be a CSV file produced by <code>ft-count-samples</code>.</p>
+
+<p>Example:</p>
+
+<pre><code>ft-select-samples counts.csv combined-overheads_*.float32 2&gt;&amp;1 | tee -a overhead-processing.log
+</code></pre>
+
+<p>The script does not modify the original sample files. Instead, it produces new files of uniform size containing the randomly selected samples. These files are given the extension <code>sf32</code> (= shuffled float32).</p>
+
+<hr />
+
+<h3 id="computingsimplestatistics">Computing Simple Statistics</h3>
+
+<p>The script <code>ft-compute-stats</code> processes <code>sf32</code> or <code>float32</code> files to extract the maximum, average, median, and minimum observed overheads, as well as the standard deviation and variance. The output is provided in CSV format for further processing (e.g., formatting with a spreadsheet application).</p>
+
+<p><strong>Note</strong>: Feather-Trace records most overheads in cycles. To convert to microseconds, one must provide the speed of the experimental platform, measured in the number of processor cycles per microsecond, with the <code>--cycles-per-usec</code> option. The speed can be inferred from the processor&#8217;s spec sheet (e.g., a 2Ghz processor executes 2000 cycles per microsecond) or from <code>/proc/cpuinfo</code> (on x86 platforms). The LITMUS<sup>RT</sup> user-space library <a href="https://github.com/LITMUS-RT/liblitmus">liblitmus</a> also contains a tool <code>cycles</code> that can help measure this value.</p>
+
+<p>Example:</p>
+
+<pre><code>ft-compute-stats combined-overheads_*.sf32 &gt; stats.csv
+</code></pre>
+
+<h2 id="completeexample">Complete Example</h2>
+
+<p>Suppose all overhead files collected with <code>ft-trace-overheads</code> are located in the directory <code>$DIR</code>. Overhead statistics can be extracted as follows.</p>
+
+<pre><code># (1) Sort
+ft-sort-traces overheads_*.bin 2&gt;&amp;1 | tee -a overhead-processing.log
+
+# (2) Split
+ft-extract-samples overheads_*.bin 2&gt;&amp;1 | tee -a overhead-processing.log
+
+# (3) Combine
+ft-combine-samples --std overheads_*.float32 2&gt;&amp;1 | tee -a overhead-processing.log
+
+# (4) Count available samples
+ft-count-samples  combined-overheads_*.float32 &gt; counts.csv
+
+# (5) Shuffle &amp; truncate
+ft-select-samples counts.csv combined-overheads_*.float32 2&gt;&amp;1 | tee -a overhead-processing.log
+
+# (6) Compute statistics
+ft-compute-stats combined-overheads_*.sf32 &gt; stats.csv
+</code></pre>
+
+<h1 id="tracingaschedule">Tracing a Schedule</h1>
+
+<p>Whereas Feather-Trace data records <em>how long</em> a scheduling decision or context switch takes, the <code>sched_trace</code> interface instead records <em>which</em> tasks are scheduled at what point and corresponding job releases and deadlines.</p>
+
+<h3 id="recordingaschedulewithsched_trace">Recording a Schedule with <code>sched_trace</code></h3>
+
+<p>The main high-level tool for recording scheduling decisions is the script <code>st-trace-schedule</code>.</p>
+
+<p>To record the execution of a task system, follow the following rough outline:</p>
+
+<ol>
+<li><p>start recording all scheduling decisions with <code>st-trace-schedule</code>;</p></li>
+<li><p>launch and initialize all real-time tasks such that they wait for a <em>synchronous task system release</em> (see the <code>release_ts</code> utility in <code>liblitmus</code>);</p></li>
+<li><p>release the task set with <code>release_ts</code>; and finally</p></li>
+<li><p>stop <code>st-trace-schedule</code> when the benchmark has completed.</p></li>
+</ol>
+
+<p>Example:</p>
+
+<pre><code>st-trace-schedule my-trace
+CPU 0: 17102 &gt; schedule_host=rts5_scheduler=GSN-EDF_trace=my-trace_cpu=0.bin [0]
+CPU 1: 17104 &gt; schedule_host=rts5_scheduler=GSN-EDF_trace=my-trace_cpu=1.bin [0]
+CPU 2: 17106 &gt; schedule_host=rts5_scheduler=GSN-EDF_trace=my-trace_cpu=2.bin [0]
+CPU 3: 17108 &gt; schedule_host=rts5_scheduler=GSN-EDF_trace=my-trace_cpu=3.bin [0]
+Press Enter to end tracing...
+# [launch tasks]
+# [kick off experiment with release_ts]
+# [press Enter when done]
+Ending Trace...
+Disabling 10 events.
+Disabling 10 events.
+Disabling 10 events.
+Disabling 10 events.
+/dev/litmus/sched_trace2: XXX bytes read.
+/dev/litmus/sched_trace3: XXX bytes read.
+/dev/litmus/sched_trace1: XXX bytes read.
+/dev/litmus/sched_trace0: XXX bytes read.
+</code></pre>
+
+<p>As the output suggests, <code>st-trace-schedule</code> records one trace file per processor.</p>
+
+<h3 id="whatdoessched_tracedatalooklike">What does <code>sched_trace</code> data look like?</h3>
+
+<p>A scheduling event is recorded whenever</p>
+
+<ul>
+<li>a task is dispatched (switched to),</li>
+<li>a task is preempted (switched away),</li>
+<li>a task suspends (i.e., blocks), or</li>
+<li>a task resumes (i.e., wakes up).</li>
+</ul>
+
+<p>Furthermore, the release time, deadline, and completion time of each job are recorded, as are each task&#8217;s parameters and the name of its executable (i.e., the <code>comm</code> field in the Linux kernel&#8217;s PCB <code>struct task_struct</code>). Finally, the time of a synchronous task system release (if any) is recorded as a reference of &#8220;time zero&#8221;.</p>
+
+<p>The tool <code>st-dump</code> may be used to print traces in a human-readable format for debugging purposes.</p>
+
+<h2 id="drawingatracedschedule">Drawing a Traced Schedule</h2>
+
+<p>The <a href="http://cairographics.org/pycairo/">pycairo</a>-based <code>st-draw</code> tool renders a trace as a PDF. By default, it will render the first one thousand milliseconds after <em>time zero</em>, which is either the first synchronous task system release (if any) or the time of the first event in the trace (otherwise).</p>
+
+<p>Example:</p>
+
+<pre><code>st-draw schedule_host=rts5_scheduler=GSN-EDF_trace=my-trace_cpu=*.bin
+# Will render the schedule as schedule_host=rts5_scheduler=GSN-EDF_trace=my-trace.pdf
+</code></pre>
+
+<p>Invoke <code>st-draw -h</code> for a list of possible options. If the tool takes a long time to complete, run it in verbose mode (<code>-v</code>) and try to render a shorter schedule (<code>-l</code>).</p>
+
+<h2 id="obtainingjobstatistics">Obtaining Job Statistics</h2>
+
+<p>The tool <code>st-job-stats</code> produces a CSV file with relevant per-job statistics for further processing with (for example) a spreadsheet application.</p>
+
+<p>Example:</p>
+
+<pre><code>st-job-stats schedule_host=rts5_scheduler=GSN-EDF_trace=my-trace_cpu=*.bin
+# Task,   Job,     Period,   Response, DL Miss?,   Lateness,  Tardiness, Forced?,       ACET
+# task NAME=rtspin PID=17406 COST=590000 PERIOD=113000000 CPU=254
+ 17406,     3,  113000000,   17128309,        0,  -95871691,          0,       0,     388179
+ 17406,     4,  113000000,   12138793,        0, -100861207,          0,       0,     382776
+ 17406,     5,  113000000,    7137743,        0, -105862257,          0,       0,     382334
+ 17406,     6,  113000000,    2236774,        0, -110763226,          0,       0,     382352
+ 17406,     7,  113000000,     561701,        0, -112438299,          0,       0,     559208
+ 17406,     8,  113000000,     384752,        0, -112615248,          0,       0,     382539
+ 17406,     9,  113000000,     565317,        0, -112434683,          0,       0,     561602
+ 17406,    10,  113000000,     379963,        0, -112620037,          0,       0,     377526
+[...]
+</code></pre>
+
+<p>There is one row for each job. The columns record:</p>
+
+<ol>
+<li>the task&#8217;s PID,</li>
+<li>the job sequence number,</li>
+<li>the task&#8217;s period,</li>
+<li>the job&#8217;s response time,</li>
+<li>a flag indicating whether the deadline was missed,</li>
+<li>the job&#8217;s lateness (i.e., response time minus relative deadline),</li>
+<li>the job&#8217;s tardiness (i.e., max(0, lateness)),</li>
+<li>a flag indicating whether the LITMUS<sup>RT</sup> budget enforcement mechanism inserted an artificial job completion, and finally</li>
+<li>the actual execution time (ACET) of the job.</li>
+</ol>
+
+<p>Note that the <em>Forced?</em> flag is always zero for proper reservation-based schedulers (e.g., under <code>P-RES</code>). Forced job completion is an artefact of the LITMUS<sup>RT</sup> legacy budget enforcement mechanism under process-based schedulers (such as <code>GSN-EDF</code> or <code>P-FP</code>).</p>
+
+<h1 id="writingreal-timetasksfromscratch">Writing Real-Time Tasks From Scratch</h1>
+
+<p>The tools used so far &#8212; primarily, <code>rtspin</code> and <code>rt_launch</code> &#8212; are useful for illustrative purposes and to exercise scheduler plugins. However, to actually deploy real real-time workloads on LITMUS<sup>RT</sup>, closer integration with the system is required. To this end, we discuss in the following how to write real-time tasks that use the LITMUS<sup>RT</sup> API &#8220;from scratch.&#8221;</p>
+
+<p>Note that the following is intended as a brief tutorial to provide a starting point. Giving a comprehensive survey of the entire LITMUS<sup>RT</sup> API and user-space environment is beyond the scope of this guide.</p>
+
+<p>We begin with the most basic case, a simple periodic task.</p>
+
+<h2 id="aminimalperiodictask">A Minimal Periodic Task</h2>
+
+<p>First, we require a couple of standard system headers for I/O and related tasks.</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+</code></pre>
+
+<p>The main header to include for functionality specific to LITMUS<sup>RT</sup> is <code>litmus.h</code>, which is provided by <code>liblitmus</code>.</p>
+
+<pre><code>#include &lt;litmus.h&gt;
+</code></pre>
+
+<p>We now define the task parameters. Note that this may be determined dynamically
+at runtime (e.g., via passed parameters, as done by <code>rtspin</code> and <code>rt_launch</code>). The main thing to note is that the LITMUS<sup>RT</sup> API expects times to be specified in nanoseconds. The <code>ms2ns()</code> helper function provided by
+liblitmus comes in handy in specifying these parameters more legibly in
+millisecond granularity.</p>
+
+<pre><code>#define PERIOD      ms2ns(1000)
+#define DEADLINE    ms2ns(1000)
+#define EXEC_COST   ms2ns(50)
+</code></pre>
+
+<p>Before going further, it is worth emphasizing that virtually all LITMUS<sup>RT</sup> APIs can fail at runtime. It is therefore good practice &#8212; and strongly recommended &#8212; to carefully check all return values. To this end, we define a simple macro for ensuring that syscalls do not fail.</p>
+
+<pre><code>#define CALL( exp ) do { \
+        int ret; \
+        ret = exp; \
+        if (ret != 0) \
+            fprintf(stderr, &quot;%s failed: %m\n&quot;, #exp); \
+        else \
+            fprintf(stderr, &quot;%s ok.\n&quot;, #exp); \
+    } while(0)
+</code></pre>
+
+<p>The periodic task that we implement is very simple. It increments a counter
+and then signals exit after ten jobs have been processed.</p>
+
+<pre><code>int i = 0;
+
+int job(void)
+{
+    i++;
+    if (i &gt;= 10)
+        return 1;
+    return 0;
+}
+</code></pre>
+
+<p>Next, we define the main program and loop that defines the period task. The variable <code>params</code> of type <code>struct rt_task</code> will hold all information related to this task relevant to the kernel.</p>
+
+<pre><code>int main()
+{
+    int do_exit;        
+    struct rt_task params;
+</code></pre>
+
+<p>First, we call <code>init_litmus()</code>, which initializes the data structures within <code>liblitmus</code> and is mandatory in
+order to correctly use <code>liblitmus</code>.</p>
+
+<pre><code>    CALL(init_litmus());
+</code></pre>
+
+<p>We now set up the parameters for this task by filling in the <code>struct rt_task</code>.</p>
+
+<pre><code>    init_rt_task_param(&amp;params);
+    params.exec_cost = EXEC_COST;
+    params.period = PERIOD;
+    params.relative_deadline = DEADLINE;
+</code></pre>
+
+<p>Note that we first call <code>init_rt_task_param()</code> to populate the struct with default values. It is recommended to always first call <code>init_rt_task_param()</code> because the layout of <code>struct rt_task</code> changes from version to version (e.g., sometimes newer LITMUS<sup>RT</sup> kernels require new fields to be added). Using <code>init_rt_task_param()</code> ensures that all fields have sensible defaults values and thus aids with portability.</p>
+
+<p>After the <code>struct rt_task</code> has been populated, we invoke the system call <code>set_rt_task_param()</code> with the thread ID of the current process to communicate the desired configuration to the kernel. </p>
+
+<pre><code>    CALL(set_rt_task_param(gettid(), &amp;params));
+</code></pre>
+
+<p>In LITMUS<sup>RT</sup>, processes start out as background processes and need to be
+&#8220;transitioned&#8221; into real-time mode. This is done via the <code>task_mode()</code> function
+in <code>liblitmus</code>. Note that <code>set_rt_task_param()</code> simply communicates the configuration to the kernel; it does not yet transition the task into real-time mode, which must be accomplished explicitly with the <code>task_mode()</code> API.</p>
+
+<pre><code>    CALL(task_mode(LITMUS_RT_TASK));
+</code></pre>
+
+<p>At this point, the process is running as a LITMUS<sup>RT</sup> real-time task. </p>
+
+<p>However, we do not yet want the task to commence the actual real-time computation, for the following reason. In a real system, there is most likely more than one task, and various tasks may depend on one another in complex ways. To ensure that the system is in a consistent state and ready for execution, the real-time task should wait at this point until all tasks of the task system have finished initialization. For this purpose, LITMUS<sup>RT</sup> provides an API for signaling (synchronous) task system releases, as already mentioned before in the context of <code>rtspin</code> and <code>rt_launch</code> (recall the <code>-w</code> flag).</p>
+
+<p>To await the release of the entire task system, which signals that the initialization phase has finished, we simply call the LITMUS<sup>RT</sup> API <code>wait_for_ts_release()</code>.</p>
+
+<pre><code>CALL(wait_for_ts_release());
+</code></pre>
+
+<p>This call returns only after the user has run <code>release_ts</code> (or some other process that calls the <code>release_ts()</code> API).</p>
+
+<p>What follows is the main loop of the task. We expect the job function to return whether
+the loop should exit. (In our simple example, this is signaled by returning 1
+when the counter reaches 10.) The key is the <code>sleep_next_period()</code> function,
+which ensures that the job function is invoked only once per period.</p>
+
+<pre><code>    // Do real-time stuff
+    do {
+        sleep_next_period();
+        do_exit = job();
+        printf(&quot;%d\n&quot;, do_exit);
+    } while(!do_exit);
+</code></pre>
+
+<p>In a real application, <code>do_exit</code> could (for example) be set by a signal handler that is invoked when the system is shutting down the real-time task.</p>
+
+<p>Once we are done, we simply transition back to non-real-time mode using again the
+<code>task_mode()</code> function and then exit from <code>main()</code>.</p>
+
+<pre><code>    CALL(task_mode(BACKGROUND_TASK));
+
+    return 0;
+}
+</code></pre>
+
+<p>This basic skeleton achieves periodic real-time execution under global schedulers.</p>
+
+<h3 id="partitionedschedulers">Partitioned Schedulers</h3>
+
+<p>Under partitioned or clustered scheduling, the task needs to carry out two additional steps as part of its initialization. Let <code>PARTITION</code> denote the ID of the partition/cluster on which the task should be executed.</p>
+
+<ol>
+<li><p>Migrate to the correct partition/cluster with <code>CALL(be_migrate_to_domain(PARTITION))</code> prior to transitioning into real-time mode. </p></li>
+<li><p>Fill in the field <code>cpu</code> of <code>struct rt_task</code> as follows:<br/>
+<code>param.cpu = domain_to_first_cpu(PARTITION);</code></p></li>
+</ol>
+
+<p>The call to <code>be_migrate_to_domain()</code> ensures that the process is running on (one of) the processor(s) that form(s) the partition/cluster after the call returns. The <code>be_</code> prefix indicates that the function is available only to non-real-time tasks, i.e., it must be called before transitioning the process into real-time mode.</p>
+
+<p>The call to <code>domain_to_first_cpu()</code> translates a logical domain or cluster ID into a physical core number. This translation layer is useful because, on some systems, physical core IDs are not stable across reboots, so it is more convenient to say &#8220;this task belongs to the 3rd cluster as defined by shared L2 caches&#8221; rather than identifying which physical cores actually share an L2 cache.</p>
+
+<h2 id="aminimalevent-driventask">A Minimal Event-Driven Task</h2>
+
+<p>From the point of view of the LITMUS<sup>RT</sup> API, the structure and initialization of an event-driven task is identical to that of a periodic task. The only major difference to a periodic task is simply the main loop of the task.</p>
+
+<p>In the interest of brevity, we do not report the common parts and focus on the main loop instead in the following.</p>
+
+<h3 id="event-drivenmainloop">Event-Driven Main Loop</h3>
+
+<p>For simplicity, we use <code>STDIN</code> as our &#8220;input event channel&#8221; (i.e., as the file descriptor from which we receive new events). In a real application, this could (for example) be a device file (e.g., <code>/dev/my-sensor</code>) or a UDP, raw Ethernet, or CAN socket. </p>
+
+<p>The main difference to the periodic task example above is that we do <em>not</em> call <code>sleep_next_period()</code>. </p>
+
+<pre><code> ...
+ // Do real-time stuff
+ do {
+    do_exit = job();
+ } while(!do_exit);
+ ...
+</code></pre>
+
+<p>Instead, the task simply blocks on the file descriptor from which it receives input events (<code>STDIN</code> in this case). To this end, we call <code>read()</code> on the standard input file descriptor at the beginning of each job. </p>
+
+<pre><code>int job(void) {
+    char buffer[80];
+    CALL(read(STDIN_FILENO, buffer, sizeof(buffer)));
+    buffer[79] = 0;
+</code></pre>
+
+<p>When an event is triggered, the <code>read()</code> unblocks (i.e., the process is resumed) and the &#8220;event&#8221; is made available to the job, which prints the message unless it receives the word &#8216;exit&#8217;.</p>
+
+<pre><code>    if (strcmp(buffer, &quot;exit&quot;) == 0)
+        return 1;
+    else {
+        printf(&quot;%s\n&quot;, buffer);
+        return 0;
+    }
+}
+</code></pre>
+
+<p>Note that even though there is no explicit call to <code>sleep_next_period()</code>, the classic scheduler plugins still police budgets and enforce minimum inter-arrival times for new jobs (as specified by the parameter <code>period</code> in <code>struct rt_task</code>). </p>
+
+<p>Reservation-based plugins such as P-RES also enforce budgets and inter-arrival times (or, really, minimum replenishment time separation), but do so based on the reservation parameters as configured with <code>resctl</code> (and ignore task parameters).</p>
+
+<h3 id="afauxeventsource">A Faux Event Source</h3>
+
+<p>For a quick way to demonstrate event-driven activation, we create a named FIFO using the <code>mkfifo</code>
+command and give that as the standard input to our event-driven task. As a result, it will block when trying to read from <code>STDIN</code>.</p>
+
+<p>Suppose <code>example_event</code> is the binary of our event-driven real-time task. To manually trigger events, we work with two terminal windows from now on.</p>
+
+<pre><code>Terminal 1:
+===========
+mkfifo input
+./example_event &lt; input
+</code></pre>
+
+<p>Events can be triggered by redirecting <code>STDOUT</code> to the FIFO. However, due to the way named FIFOs
+work in Linux, we need a long-running process that keeps the FIFO open. Here we just call sleep for a long time and redirect
+its output to the named FIFO to keep it open.</p>
+
+<pre><code>Terminal 2:
+===========
+sleep 1000 &gt; input &amp;
+# The preceding command is needed to make sure
+# the FIFO is not closed by the echo processes invoked below.
+[1] 7009
+echo &quot;hello&quot; &gt; input 
+echo &quot;world&quot; &gt; input
+echo &quot;exit&quot; &gt; input
+</code></pre>
+
+<p>It should be apparent that the example task running in the first terminal is indeed triggered by the events generated in the second terminal. By giving the task running in the first terminal a large period and a small budget (e.g., several seconds and one millisecond, respectively), the effects of budget enforcement and minimum inter-arrival-time separation can be easily observed by manually triggering many events with short inter-arrival times. </p>
+
+<h2 id="skeletonreal-timetasks:base_taskandbase_mt_task">Skeleton Real-Time Tasks: <code>base_task</code> and <code>base_mt_task</code></h2>
+
+<p>To provide an easy starting point for the development of custom real-time tasks, <code>liblitmus</code> comes with two example skeletons of periodic tasks that are known to compile and work.</p>
+
+<p>The file <code>bin/base_task.c</code> contains an example sequential, single-threaded real-time task, which we recommend as a basis for developing real-time tasks using the <code>liblitmus</code> API.</p>
+
+<p>The template in the file <code>bin/base_mt_task.c</code> is slightly more involved and shows how to build a multithreaded real-time process, where each thread corresponds to a sporadic task.</p>
+<div style="display:none">
+<!--This seemingly unnecessary div markup is the only thing keeping this script working after Markdown conversion. Trust me.-->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    
+  });
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</div>
+<script>(function(factory){if(typeof define==="function"&&define.amd){define("bidi_helpers",[],factory)}else{window.bidi_helpers=factory()}})(function(){var module={};module.Dir={RTL:-1,UNKNOWN:0,LTR:1};module.Format={LRE:"\u202A",RLE:"\u202B",PDF:"\u202C",LRM:"\u200E",RLM:"\u200F"};module.ltrChars_="A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02B8\u0300-\u0590\u0800-\u1FFF\u2C00-\uFB1C\uFE00-\uFE6F\uFEFD-\uFFFF";module.rtlChars_="\u0591-\u07FF\uFB1D-\uFDFF\uFE70-\uFEFC";module.ltrDirCheckRe_=new RegExp("^[^"+module.rtlChars_+"]*["+module.ltrChars_+"]");module.ltrCharReg_=new RegExp("["+module.ltrChars_+"]");module.hasAnyLtr=function(text){return module.ltrCharReg_.test(text)};module.rtlDirCheckRe_=new RegExp("^[^"+module.ltrChars_+"]*["+module.rtlChars_+"]");module.rtlRe=module.rtlDirCheckRe_;module.isRtlText=function(text){return module.rtlDirCheckRe_.test(text)};module.isLtrText=function(text){return module.ltrDirCheckRe_.test(text)};module.isRequiredLtrRe_=/^http:\/\/.*/;module.hasNumeralsRe_=/\d/;module.estimateDirection=function(text,detectionThreshold){var rtlCount=0;var totalCount=0;var hasWeaklyLtr=false;var tokens=text.split(/\s+/);for(var i=0;i<tokens.length;i++){var token=tokens[i];if(module.isRtlText(token)){rtlCount++;totalCount++}else{if(module.isRequiredLtrRe_.test(token)){hasWeaklyLtr=true}else{if(module.hasAnyLtr(token)){totalCount++}else{if(module.hasNumeralsRe_.test(token)){hasWeaklyLtr=true}}}}}return totalCount==0?(hasWeaklyLtr?module.Dir.LTR:module.Dir.UNKNOWN):(rtlCount/totalCount>detectionThreshold?module.Dir.RTL:module.Dir.LTR)};return module});(function(factory){if(typeof define==="function"&&define.amd){define("bidiweb",["bidi_helpers"],factory)}else{window.bidiweb=factory(bidi_helpers)}})(function(bidi_helpers){var module={};var IProcessor={makeRtl:function(element){},makeLtr:function(element){}};var css_processor=function(classes){return{makeRtl:function(element){element.classList.add(classes.rtl)},makeLtr:function(element){element.classList.add(classes.ltr)}}};var style_processor=function(falign){return{makeRtl:function(element){element.style.direction="rtl";if(falign){element.style.textAlign="right"}},makeLtr:function(element){element.style.direction="ltr";if(falign){element.style.textAlign="left"}}}};module.processors={css:css_processor,style:style_processor};var nodeListMock=function(node){var list=[node];list.item=function(i){return list[i]};return list};module.process=function(query,processor){var elements;if(query instanceof NodeList){elements=query}else{if(query instanceof Node){elements=nodeListMock(query)}else{elements=document.querySelectorAll(query)}}module.process_elements(elements,processor);return elements};module.process_elements=function(elements,processor){for(var index=0;index<elements.length;index++){var element=elements.item(index);var text=element.textContent||element.value||element.placeholder||"";var dir=bidi_helpers.estimateDirection(text,0.4);if(dir==bidi_helpers.Dir.RTL){processor.makeRtl(element)}else{if(dir==bidi_helpers.Dir.LTR){processor.makeLtr(element)}}}};module.process_css=function(query,classes){var proc=module.processors.css(classes);return module.process(query,proc)};module.process_style=function(query,falign){var proc=module.processors.style(falign);return module.process(query,proc)};module.style=function(query){return module.process_style(query,true)};module.css=function(query){return module.process_css(query,{rtl:"rtl",ltr:"ltr"})};module.htmlToElement=function(html){var container=document.createElement("div");container.innerHTML=html;return container};module.html_css=function(html){var container=module.htmlToElement(html);var nodes=container.querySelectorAll("*");module.css(nodes);return container.innerHTML};module.html_style=function(html){var container=module.htmlToElement(html);var nodes=container.querySelectorAll("*");module.style(nodes);return container.innerHTML};return module});</script>
+<!-- ##END MARKED WRAPPER## -->
+    </div>
+</body>
+</html>
