@@ -12,14 +12,15 @@ LITMUS^RT has been continuously maintained since 2006 and is still being activel
 
 ## Current Version
 
-The current version of LITMUS^RT is **2015.1** and is based on Linux 4.1.3.
-It was released on 8/9/2015 and includes plugins for the following
+The current version of LITMUS^RT is **2016.1** and is based on Linux 4.1.3.
+It was released on June 22, 2016 and includes plugins for the following
 scheduling policies:
 
 - Partitioned EDF with synchronization support (PSN-EDF),
 - Global EDF with synchronization support (GSN-EDF),
 - Clustered EDF (C-EDF),
-- Partitioned Fixed-Priority (P-FP), and
+- Partitioned Fixed-Priority (P-FP), 
+- Partitioned [Reservation-Based Scheduling](https://github.com/LITMUS-RT/liblitmus/blob/master/doc/howto-use-resctl.md) (P-RES), and
 - PD^2, with either staggered or aligned quanta (PFAIR).
     
 Please refer to the <a href="http://wiki.litmus-rt.org/litmus/Releases">download</a> and <a href="http://wiki.litmus-rt.org/litmus/InstallationInstructions">installation</a> wiki pages for details.
