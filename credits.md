@@ -31,18 +31,18 @@ Many researchers have helped with improving LITMUS^RT over the years. <a href="h
 Current contributors:
 
 - <a href="http://www.mpi-sws.org/~bbb">Björn B. Brandenburg</a> (**maintainer**, MPI-SWS, 2006–)
-
+- Manohar Vanga (MPI-SWS, 2012–)
+- Pratyush Patel (MPI-SWS, 2015–)
+- Mahircan Gül (MPI-SWS, 2016–)
+- Geoffrey Tran (ISI, 2015–)
 
 Inactive contributors:
 
 - Andrea Bastoni (University of Rome "Tor Vergata", now at SYSGO AG, 2009–)
-- Glenn Elliot (UNC Chapel Hill, now at Tesla Motors, Inc. 2009-2014)
-- Manohar Vanga (MPI-SWS, 2012–)
-
 
 Past contributors:
 
-
+- Glenn Elliot (UNC Chapel Hill, 2009-2014)
 - Roy Spliet (MPI-SWS, 2013-2014)
 - Felipe Cerqueira (MPI-SWS, 2012-2013)
 - Jonathan  Hermann (UNC Chapel Hill, 2010-2013)
