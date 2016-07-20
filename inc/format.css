@@ -175,10 +175,12 @@ a:hover {
   }
 
 h1 {
-    font-size: 16pt;
+    font: bold 24pt Georgia, "Times New Roman", Times, serif;
+//    text-align: center;
 }
 
 h2 {
+	margin-top: 1.5em;
 	font: italic bold 18pt Georgia, "Times New Roman", Times, serif;
 }
 
