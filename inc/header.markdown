@@ -7,7 +7,7 @@
 
 [about](index.html) - 
 [wiki](http://wiki.litmus-rt.org/) -
-[tutorial](tutor16/index.html) - 
+[tutorial](tutorial/index.html) - 
 [download](http://wiki.litmus-rt.org/litmus/Releases) -
 [installation](http://wiki.litmus-rt.org/litmus/InstallationInstructions) -
 [publications](http://wiki.litmus-rt.org/litmus/Publications) -
