@@ -175,6 +175,7 @@ a:hover {
   }
 
 h1 {
+	margin-top: 1em;
     font: bold 24pt Georgia, "Times New Roman", Times, serif;
 //    text-align: center;
 }
@@ -186,6 +187,7 @@ h2 {
 
 
 h3 {
+	margin-top: 2em;
     font-size: 12pt;
   }
 
@@ -219,6 +221,9 @@ h3 {
   }
 
 
+hr {
+	margin-top: 3em;
+}
 
 .main {
     width : 20cm;
@@ -226,6 +231,20 @@ h3 {
 
 .src {
   font-family: Courier, monospace;
+}
+
+code {
+	font-family:  Menlo, Monaco, Courier, "Courier New", monospace;
+}
+
+pre {
+  margin-left: 0.5cm;
+  margin-right: 0.5cm;
+  padding: 0.2cm;
+  background-color: #000000;
+  color: #cccccc;
+  border: 2px solid #cccccc;
+  font-size: 11pt;
 }
 
 .shell {

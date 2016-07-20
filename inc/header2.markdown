@@ -6,8 +6,9 @@
 <div class="nav">
 
 [about](../index.html) - 
+[tutorial](../tutorial/index.html) -
+[manual](../tutorial/manual.html) -
 [wiki](http://wiki.litmus-rt.org/) -
-[tutorial](../tutorial/index.html) - 
 [download](http://wiki.litmus-rt.org/litmus/Releases) -
 [installation](http://wiki.litmus-rt.org/litmus/InstallationInstructions) -
 [publications](http://wiki.litmus-rt.org/litmus/Publications) -

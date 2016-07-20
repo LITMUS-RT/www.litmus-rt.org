@@ -17,17 +17,21 @@ CSS:    ../inc/format.css
 4. comes with *Feather-Trace*, a **low-overhead tracing** framework.
 
 
-This guide provides an introduction to the user-facing parts of LITMUS^RT, namely (3) and (4), and assumes that the kernel (with the LITMUS^RT modifications in place) has already been compiled and is working. How to modify  the kernel itself or how to develop new policy plugins is beyond the scope of this guide.
+This guide provides an introduction to the user-facing parts of LITMUS^RT, namely (3) and (4), and assumes that the kernel (with the LITMUS^RT modifications in place) has already been compiled and is working. How to modify  the kernel itself, and in particular how to develop new policy plugins, is beyond the scope of this guide.
 
 This guide describes LITMUS^RT as of version 2016.1 (released in July 2016).
+
+## Table of Contents
+
+{{TOC}} 
 
 ## Booting
 
 LITMUS^RT boots just like any other Linux system. In most cases, no modifications need to be made to the Linux distribution's init system.
 
-Linux supports a large number of boot parameters that can be passed to the kernel as a kernel command line argument. Most of these parameters are irrelevant to LITMUS^RT; however, one of them, the `maxcpus` parameter, is particularly useful and worth highlighting. 
+Linux supports a large number of boot parameters that can be passed to the kernel as a kernel command line argument. Most of these parameters are irrelevant to LITMUS^RT. One of them, however, the `maxcpus` parameter, is particularly useful and worth highlighting. 
 
-The `maxcpus` parameter allows limiting the number of processors used by the kernel. This can be used to instruct the kernel to leave some of the available processor cores unused.  For instance, this is especially useful when conducting scalability experiments where the overhead of a scheduler (or some other component) needs to be obtained for a range of core counts.
+The `maxcpus` parameter allows limiting the number of processors used by the kernel. This can be used to instruct the kernel to leave some of the available processors unused.  For instance, this is useful when conducting scalability experiments where the overhead of a scheduler (or some other component) needs to be obtained for a range of core counts.
 
 
 (Note: there also exists a static maximum supported processor count called `NR_CPUS` that is set as part of the kernel configuration at compile time. The `maxcpus` parameter cannot exceed `NR_CPUS`.)
@@ -53,19 +57,27 @@ As of version 2016.1, the following real-time scheduling policies are built into
 	-	sporadic polling server
 	-	table-driven reservations
 
-These policy plugins form two groups: whereas the **classic plugins** --- P-FP, PSN-EDF, GSN-EDF, C-EDF, and PFAIR --- are  *process-based* (i.e., one real-time "task" = one single-threaded Linux process), the much more recent **reservation-based plugin** P-RES implements first-class reservations (i.e., one real-time "task" = any number of threads/processes).
-
-The classic plugins have been a part of LITMUS^RT since the first version from 2006/2007 and have been used in virtually all prior studies based on LITMUS^RT.
-However, they impose certain limitations that may render them unsuitable for certain workloads (e.g., when a real-time process forks, the child process is *not* a real-time process to avoid overload). We expect future developments to focus increasingly on reservation-based plugins.
-
 While P-FP, PSN-EDF, P-RES, and GSN-EDF are built into the kernel by default, C-EDF
 and PFAIR are optional and can be de-selected during kernel
-configuration. During boot-up, built-in policies are loaded by the kernel and
+configuration. 
+
+
+
+These policy plugins form two groups:
+
+- The **classic plugins** P-FP, PSN-EDF, GSN-EDF, C-EDF, and PFAIR are  *process-based*: in these plugins, each real-time "task" (from a scheduling theory point of view) necessarily corresponds to exactly one Linux thread (or single-threaded process).
+
+- The much more recent **reservation-based plugin** P-RES implements first-class reservations:  each real-time "task" corresponds to a sequential process *container* and hence can correspond to any number of threads/processes.
+
+The classic plugins have been a part of LITMUS^RT since the first version from 2006/2007 and have played a role in virtually all prior studies based on LITMUS^RT.
+However, they impose certain limitations that may render them unsuitable for some workloads (e.g., under these plugins, when a real-time process forks, the child process is *not* a real-time process to avoid overload). We expect future developments to focus increasingly on reservation-based plugins.
+
+During boot-up, built-in policies are loaded by the kernel and
 can then be later activated (one at a time) by the root user.
 
 
-At runtime, scheduler plugins are managed via a simple `/proc` interface that is exposed under `/proc/litmus`. All files under under `/proc/litmus` can be manually read or written for management purposes; however it is often easier and more
-convenient to use higher-level tools offered by `liblitmus`. In the following, we discuss a list of basic user-space commands related to plugin management, followed by an example.
+At runtime, scheduler plugins are managed via a simple `/proc` interface that is exposed under `/proc/litmus`. While all files under `/proc/litmus` can be manually read or written for management purposes,  it is often easier and more
+convenient to use the higher-level tools offered by `liblitmus`.  In the following, we discuss a list of basic user-space commands related to plugin management, followed by an example.
 
 All the commands mentioned in the following must be executed as root.
 
@@ -124,6 +136,10 @@ Under clustered scheduling, non-overlapping sets of processors are scheduled ind
 
 The C-EDF scheduler builds clusters of processors *at activation time* based on the *current* value of the *cluster file* `/proc/litmus/plugins/C-EDF/cluster`. Valid values are “L1”, “L2”, “L3”, or “ALL”, where “ALL” indicates global scheduling (i.e., with “ALL” a single cluster containing all processor cores is built). On processors with private L1 caches, “L1” corresponds to partitioned scheduling (i.e., in this case, C-EDF builds one cluster for each processor).
 
+For example, to enable L3-based clusters under C-EDF, run the following command:
+
+	echo L3 > /proc/litmus/plugins/C-EDF/cluster
+
 The PFAIR plugin also supports clustered scheduling based on the corresponding cluster file `/proc/litmus/plugins/PFAIR/cluster`.
 
 Note that clusters are configured when a plugin is activated, i.e, the cluster size cannot be changed while a plugin is active. To be effective, the desired cluster size has to be written to the cluster file *before* the scheduler switch.
@@ -140,9 +156,7 @@ If a change in cluster size is desired, first switch to the *Linux* plugin, upda
 
 ## Working with Reservations in P-RES
 
-In contrast to other LITMUS^RT plugins, reservations are first-class entities in `P-RES`  that exist independently of tasks. In particular, they must be created *before* any task can be launched, and they continue to exist even after all tasks have terminated. Multiple tasks or threads can be assigned to the same reservation. If a task forks, both the parent and the child remain in the same reservation.
-
-### Partitioned Reservations
+In contrast to the classic process-based LITMUS^RT plugins, in the in `P-RES` plugin, reservations are first-class entities  that exist independently of tasks. In particular, they must be created *before* any real-time task can be launched, and they continue to exist even after all tasks have terminated. Multiple tasks or threads can be assigned to the same reservation. If a task forks, both the parent and the child remain in the same reservation.
 
 To create new reservations, use the tool `resctl`. The tool has an online help message that can be triggered with `resctl -h`, which explains all options. In the following, we explain how to create partitioned, per-processor reservations.
 
@@ -158,7 +172,7 @@ table-driven (TD)
 
 Additional common reservations types (e.g., CBS, sporadic servers, etc.) have been developed in a separate branch and are expected to be released in a future version of LITMUS^RT.
 
-The most simple reservation type is the polling reservation, which comes in two flavors:  classic *periodic polling reservations* (PP), and more flexible *sporadic polling reservations* (SP). The latter is ideally suited for encapsulating sporadic and periodic real-time tasks, whereas the former is useful primarily if there is a need for fixed, known replenishment times.
+The most simple reservation type is the polling reservation, which comes in two flavors:  classic *periodic polling reservations* (PP), and more flexible *sporadic polling reservations* (PS). The latter is ideally suited for encapsulating sporadic and periodic real-time tasks, whereas the former is useful primarily if there is a need for fixed, known replenishment times.
 
 In the following examples, we use sporadic polling reservations.
 
@@ -203,7 +217,7 @@ setsched P-RES
 ## Real-time Tasks
 
 There are two ways of running real-time tasks in
-[LITMUS^RT](http://www.litmus-rt.org). The first is to use the
+LITMUS^RT. The first is to use the
 `liblitmus` API to program a custom real-time application,  and the second is to use the
 `rt_launch` tool for executing arbitrary Linux binaries as LITMUS^RT real-time tasks.
 
@@ -226,39 +240,60 @@ It is further possible to specify a task's "hardness" as its class; however, *th
 
 In the following, we provide a brief description of the tools in `liblitmus` related to running real-time tasks. For detailed usage information, run the mentioned commands without any parameters.
 
-### Simulating CPU-bound workloads with `rtspin`
+### Simulating CPU-bound workloads with rtspin
 
 The tool `rtspin` is a simple test task distributed with `liblitmus` that follows the first approach, i.e., it uses the API to programmatically "become" a real-time task when launched. The tool executes a simple, configurable spin loop that is useful for simulating CPU-bound workloads. It can be used for
 test and debugging purposes.
 
+	rtspin: simulate a periodic CPU-bound real-time task
 
-    Usage:
-        (1) rtspin [COMMON-OPTS] WCET PERIOD DURATION
-        (2) rtspin [COMMON-OPTS] -f FILE [-o COLUMN] WCET PERIOD
-        (3) rtspin -l
-        (4) rtspin -B
+	Usage: (1) rtspin OPTIONS WCET PERIOD DURATION
+		   (2) rtspin OPTIONS -F FILE [-C COLUMN] WCET PERIOD
+		   (3) rtspin -l
+		   (4) rtspin -B
 
-    Modes: 
-        (1) run as periodic task with given WCET and PERIOD
-        (2) as (1), but load per-job execution times from CSV file
-        (3) Run calibration loop (how accurately are target runtimes met?)
-        (4) Run background, non-real-time cache-thrashing loop (w/ -m).
-       
-        -w                wait for synchronous release
-        -v                verbose (prints PID)
-        -p CPU            physical partition or cluster to assign to
-        -r VCPU           reservation to attach to 
-        -d DEADLINE       relative deadline, implicit by default (in ms)
-        -q PRIORITY       priority to use (ignored by EDF plugins, highest=1, lowest=511)
-        -c be|srt|hrt     task class (best-effort, soft real-time, hard real-time)
-        -l                run calibration loop
-        -m RSS            set working set size (memory accessd by job)
-        -e                turn on budget enforcement,disabled by default
-        wcet, period      reservation parameters (in ms)
-    
-        WCET and PERIOD are milliseconds, DURATION is seconds.
-        CRITICAL SECTION LENGTH is in milliseconds.
-        RESIDENT SET SIZE (RSS) is in number of pages
+	Modes: (1) run as periodic task with given WCET and PERIOD
+		   (2) as (1), but load per-job execution times from a CSV file
+		   (3) Run calibration loop (how accurately are target runtimes met?)
+		   (4) Run background, non-real-time cache-thrashing loop (w/ -m).
+
+	Required arguments:
+		WCET, PERIOD      reservation parameters (in ms)
+		DURATION          terminate the task after DURATION seconds
+
+	Options:
+		-B                run non-real-time background loop
+		-c be|srt|hrt     task class (best-effort, soft real-time, hard real-time)
+		-d DEADLINE       relative deadline, equal to the period by default (in ms)
+		-e                turn on budget enforcement (off by default)
+		-h                show this help message
+		-i                report interrupts (implies -v)
+		-l                run calibration loop and report error
+		-m FOOTPRINT      specify number of data pages to access
+		-o OFFSET         offset (also known as phase), zero by default (in ms)
+		-p CPU            partition or cluster to assign this task to
+		-q PRIORITY       priority to use (ignored by EDF plugins)
+		-r VCPU           virtual CPU or reservation to attach to
+		-R                create sporadic reservation for task (with VCPU=PID)
+		-s SCALE          fraction of WCET to spin for (1.0 means 100%)
+		-u SLACK          randomly under-run WCET by up to SLACK milliseconds
+		-v                verbose (print per-job statistics)
+		-w                wait for synchronous release
+
+		-F FILE           load per-job execution times from CSV file
+		-C COLUMNS        specify column to read per-job execution times from (default: 1)
+
+		-X PROTOCOL       access a shared resource protected by a locking protocol
+		-L CS-LENGTH      simulate a critical section length of CS-LENGTH milliseconds
+		-Q RESOURCE-ID    access the resource identified by RESOURCE-ID
+
+	Units:
+		WCET and PERIOD are expected in milliseconds.
+		SLACK is expected in milliseconds.
+		DURATION is expected in seconds.
+		CS-LENGTH is expected in milliseconds.
+		FOOTPRINT is expected in number of pages
+
 
 
 For example, the following command executes the task for 5 seconds on core 2 with a period of 10 ms and a WCET of 1.5 ms.
@@ -274,32 +309,31 @@ Note that priority assignment is not carried out automatically under fixed-prior
 
 When testing schedulers or learning to use LITMUS^RT, we recommend to run `rtspin` with the `-v` option, which provides some useful feedback on the execution of each job, including the task's PID and each job's absolute deadline.
 
-### Launching `rtspin` in a Reservation
+### Launching rtspin in a Reservation
 
 The `rtspin` test application can be assigned to a pre-existing reservation with the `-r` option.
 
 For example, to assign an `rtspin` process that runs for three seconds with period 100 and execution time 10 to reservation 1000 on core 1, launch `rtspin` like this:
 
-```
- rtspin -p 1 -r 1000 10 100 3
-```
-
-
-Under reservation-based schedulers, task priorities are irrelevant (i.e., ignored). Instead, priorities need to be assigned to reservations, as mentioned  in the section titled *Creating a reservation*.
+	rtspin -p 1 -r 1000 10 100 3
 
 
 
-### Launching Arbitrary Binaries with `rt_launch`
+Under reservation-based schedulers, task priorities are irrelevant (i.e., ignored). Instead, priorities need to be assigned to reservations, as mentioned  in the section "[creating a reservation](#creatingareservation)."
 
-Sometimes it is useful to run arbitrary tasks in LITMUS^RT real-time mode, either to run "legacy" code or for testing purposes. For this purpose, `liblitmus` provides a tool called `rt_launch` that allows executing arbitrary binaries as real-time tasks with arbitrary parameters. (In some sense, `rt_launch` can be thought of as the opposite of `nice`.)
 
-The tool accepts mostly the same parameters as `rtspin`, but instead of a test duration, simply specify a binary that is to be executed. Any parameters not consumed by `rt_launch` will be passed as arguments to the to-be-launched binary.
+
+### Launching Arbitrary Binaries with rt_launch
+
+Sometimes it is useful to run arbitrary tasks in LITMUS^RT real-time mode, either to run "legacy" code or for testing purposes. For this purpose, `liblitmus` provides a tool called `rt_launch`, which allows executing arbitrary binaries as real-time tasks with arbitrary parameters. (In some sense, `rt_launch` can be thought of as the opposite of `nice`.)
+
+The tool accepts mostly the same parameters as `rtspin`, but instead of specifying a test duration, simply specify a binary that is to be executed. Any parameters not consumed by `rt_launch` will be passed as arguments to the to-be-launched binary.
 
     Usage: rt_launch OPTIONS wcet period program [arg1 arg2 ...]
         -w                wait for synchronous release
         -v                verbose (prints PID)
         -p CPU            physical partition or cluster to assign to
-        -r VCPU           virtual CPU or reservation to attach to (irrelevant to most plugins)
+        -r VCPU           virtual CPU or reservation to attach to
         -R                create sporadic reservation for task (with VCPU=PID)
         -d DEADLINE       relative deadline, implicit by default (in ms)
         -o OFFSET         offset (also known as phase), zero by default (in ms)
@@ -354,7 +388,7 @@ As a result, the shell will now be running as a real-time task, subject to the p
 
 
 
-### Setting Up a (Synchronous) Task System Release with `release_ts`
+### Setting Up a (Synchronous) Task System Release with release_ts
 
 In many cases, tasks should not commence running before *all* tasks have finished initialization. Furthermore, it can simplify a system's design and analysis if tasks are known to share a common "time zero".
 
@@ -366,7 +400,7 @@ The tools `rtspin` and `rt_launch` support this feature with the `-w` option, wh
 release*. When set, tasks do not start executing
 immediately, but wait for a synchronous release point.
 
-The synchronous task release can be triggered by running `release_ts`. The number of tasks waiting for release, along with the total number of active real-time tasks, can be listed with
+The synchronous task release can be triggered by running the `release_ts` utility. The number of tasks waiting for release, along with the total number of active real-time tasks, can be listed with
 `cat /proc/litmus/stats`.
 
 Example:
@@ -384,6 +418,144 @@ Example:
     Released 4 real-time tasks.
 
 Note that it is possible to specify a number of tasks to wait for before triggering the synchronous release with the `-f` option of `release_ts`.
+
+
+## Table-Driven Reservations 
+
+LITMUS^RT's P-RES plugin also supports *table-driven reservations*, which can be used to implement *time partitioning* (aka *static scheduling* or *time-triggered scheduling*). 
+
+The basic idea behind table-driven scheduling is to define a *static scheduling table* that periodically repeats in time. For each point in time, the static scheduling table determines which entity each processor should be executing (if any), and whether any processors are free to execute a background workload (or to idle).
+
+In LITMUS^RT, table-driven scheduling is realized by means of a special reservation type in the P-RES plugin. The schedule created by such a table-driven reservation is determined by two principal parameters:
+
+1. the **major cycle** *M*, which is the period of the scheduling table (i.e., at runtime, the schedule repeats every *M* time units), and
+2. a sequence of *non-overlapping* **scheduling intervals** (or **slots**), where each such scheduling slot *[S, E)* is defined by a
+	- *start offset* *S*  in the range [0, *M*) and an
+	- *end offset* *E* in the range (*S*, *M*).
+
+For example, suppose we are given a table-driven reservation with
+
+- a major cycle of *M=250ms* and 
+- scheduling slots *[50ms, 60ms)*, *[100ms, 125ms)*, *[200ms, 205ms)*.
+
+At runtime, processes of this reservation are eligible to execute during all intervals 
+
+- *[k ∙ M + 50, k ∙ M + 60)*, 
+- *[k ∙ M + 100, k ∙ M + 125)*, and
+- *[k ∙ M + 200, k ∙ M + 205),* 
+
+for *k = 0, 1, 2, 3, …*, relative to some reference time zero (e.g., usually the boot time of the system).
+
+On a given processor, all scheduling slots must be disjoint. That is, in a correct scheduling table, at any point in time *t* and for each processor, there is at most one scheduling interval that contains *t*.
+
+
+### Creating a Table-Driven Reservation
+
+Since time partitioning is realized with reservations in LITMUS^RT^, a scheduling table is comprised of one or more table-driven reservations. Each such table-driven reservation must be  explicitly created prior to use with the `resctl` utility. 
+
+The general form of the command is:
+
+	resctl -n RID -c CPU -t table-driven -m MAJOR-CYCLE SLOT1 SLOT2 SLOT3… SLOT_N
+
+where RID denotes the reservation ID, and CPU denotes the processor on which the reservation is created. Each slot is simply a semi-open interval of the form `[START_TIME, END_TIME)`. All times are specified in (possibly fractional) milliseconds.
+
+For example, the following command instructs `resctl` to allocate a new table-driven reservation (`-t table-driven`)  with ID 123 (`-n 123`) on processor 2 (`-c 2`), with a major cycle of 250ms (`-m 250`) and scheduling slots as mentioned in the preceding example.
+
+	resctl -n 123 -c 2 -t table-driven -m 250 '[50, 60)' '[100, 125)' '[200, 205)'
+
+When using `bash` or a similar shell, the slot specifications must be quoted to prevent the shell from interpreting the closing parentheses as shell syntax. 
+
+If the command succeeds in creating the reservation, there is no output. Otherwise, an error message is shown.
+
+### Installing a Scheduling Table
+
+To define an entire scheduling table comprised of many reservations on multiple cores, execute an appropriate `resctl` command for each reservation in the table. 
+
+A typical approach is to store the system’s scheduling table as a simple shell script that enables the `P-RES` plugin and then runs the required `resctl` invocations. For example, a table-setup script such as the below example can be run as an init script during system boot, or when launching an experiment.
+
+	#!/bin/sh
+
+	# Enable plugin
+	setsched P-RES
+	
+	# Major cycle of the static schedule, in milliseconds.
+	MAJOR_CYCLE=…
+	
+	# Install table for core 0
+	resctl -c 0 -n 1 -t table-driven -m $MAJOR_CYCLE …
+	resctl -c 0 -n 2 -t table-driven -m $MAJOR_CYCLE …
+	resctl -c 0 -n 3 -t table-driven -m $MAJOR_CYCLE …
+	…
+	
+	# Install table for core 1
+	resctl -c 1 -n 1001 -t table-driven -m $MAJOR_CYCLE …
+	resctl -c 1 -n 1002 -t table-driven -m $MAJOR_CYCLE …
+	resctl -c 1 -n 1003 -t table-driven -m $MAJOR_CYCLE …
+	…
+	
+	# Install table for core 2
+	resctl -c 2 -n 2001 -t table-driven -m $MAJOR_CYCLE …
+	resctl -c 2 -n 2002 -t table-driven -m $MAJOR_CYCLE …
+	resctl -c 2 -n 2003 -t table-driven -m $MAJOR_CYCLE …
+	…
+
+While reservation IDs are arbitrary, it is often convenient to use a consistent reservation ID scheme such as *”processor ID” × 1000 + index*.
+
+**WARNING**: While `resctl` checks that each reservation’s slots do not overlap with other slots of the *same* reservation, it is possible to (accidentally) specify *multiple* reservations with overlapping slots. A table with such overlapping slots is erroneous  and results in undefined behavior, but not automatically detected. *It is the responsibility of the user to install a scheduling table in which all slots are non-overlapping.*
+
+Also note that it is possible to specify  a *different* major cycle for each table-driven reservation. If used carefully, this  offers some convenient flexibility. For instance, in some cases, it can be used to efficiently store tables that would otherwise consume large amounts of memory (e.g., if the workload’s hyper-period is large). However, this is an advanced feature and requires some careful consideration to be used correctly (i.e., without accidentally creating overlapping slots). For simplicity, it’s best to use a uniform major cycle parameter for all table-driven reservations.
+
+Once all table-driven reservations have been set up, processes can be attached to them just as it is done with any other reservation type. 
+
+### Coordinating Task Activations
+
+It is often useful to ensure that a periodic task that is assigned to a table-driven reservation always wakes up at the beginning of each scheduling slot. While LITMUS^RT does not provide a custom interface for this purpose, it can be accomplished with stock Linux APIs.
+
+Specifically, appropriate task activations can be programmed with the [`clock_nanosleep()`](http://linux.die.net/man/2/clock_nanosleep) API. The reference *time zero* of the repeating table schedule is literally time zero on the timeline of `CLOCK_MONOTONIC`.
+
+### Combining Reservation Types
+
+It is possible to combine table-driven scheduling with other reservation types by assigning appropriate reservation priorities. There are two possible use cases:
+
+1. event-driven reservations that serve as lower-priority *background* reservations, which are scheduled only when the table is idle, and
+2. higher-priority, *throttled* reservations that can preempt any tasks in   table-driven reservations.
+
+The first use case is the normal scenario (the table takes precedence at all times), but the second use case (the table can be *briefly* overruled) can also make sense when there is a need support low-latency applications. We briefly sketch both setups.
+
+#### Lower-Priority Background Reservations
+
+By default, table-driven reservations are given the highest-possible priority, which numerically is priority 1. This means that lower-priority, event-driven reservations can be trivially added simply by giving them any priority other than priority 1 (with `resctl`’s `-q` option).
+
+For example, to add a sporadic polling reservation on processor 2 with ID 9999,  priority 99, a budget of 100ms, and a period of 500ms, execute the following command:
+
+	resctl -n 9999 -c 2  -t polling-sporadic -q 99 -b 100 -p 500
+
+EDF priorities are even lower, so it is possible to combine table-driven reservations with EDF-scheduled background reservations. For instance, the command (which omits the `-q` option)
+
+	resctl -n 8888 -c 2  -t polling-sporadic -b 100 -p 500
+
+adds an EDF-scheduled background reservation.
+
+
+#### Higher-Priority Foreground Reservations
+
+It is possible to define fixed-priority reservations that can preempt table-driven reservations at any and all times during table-driven scheduling slots. The primary use case for such a setup is to ensure timely processor service for *latency-sensitive* tasks (such as certain interrupt threads) that do not consume a lot of processor bandwidth, but that need to be scheduled *quickly* when new data arrives. This, of course, makes sense only if the higher-priority reservations are tightly rate-limited to ensure that table allocations are not completely starved. 
+
+To create a sporadic polling reservation that can preempt table-driven reservations, do the following.
+
+- When creating table-driven reservations, explicitly specify a  priority lower than 1 (i.e., numerically larger than 1) by providing the `-q` switch.
+
+	Example: `resctl -q 20 -n 123 -c 2 -t table-driven -m 250 '[50, 60)' '[100, 125)' '[200, 205)'`
+
+-  When creating the sporadic polling reservation, explicitly specify a priority higher than (i.e., numerically smaller than) the one given to table-driven reservations.
+
+	Example: `resctl -q 19 -n 9999 -c 2  -t polling-sporadic -b 1 -p 500`
+
+When preempted by a higher-priority reservation, the budget of table-driven reservations is *not* shifted: any cycles that cannot be used during a scheduling slot due to higher-priority interference are simply lost. 
+
+Note that it is possible to give each table-driven reservation a different priority. This allows for precise control over *which* table-driven reservations may be preempted by event-driven reservations.  
+
+In fact, it is even possible to install *multiple*, *intentionally overlapping* table-driven reservations at different priority levels. This could potentially be used to realize a notion of *mixed-criticality* tables such as those described by [Baruah and Fohler (2011)](http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=6121421). 
 
 
 #  Overhead Tracing
@@ -453,7 +625,7 @@ Example:
 However, this convention is purely optional.
 
 
-### Automating `ft-trace-overheads`
+### Automating ft-trace-overheads
 
 It can be useful to terminate `ft-trace-overheads` from another script by sending a signal. For this purpose, provide the `-s` flag to `ft-trace-overheads`, which will make it terminate cleanly when it receives the `SIGUSR1` signal.
 
@@ -614,7 +786,7 @@ Suppose all overhead files collected with `ft-trace-overheads` are located in th
 
 Whereas Feather-Trace data records *how long* a scheduling decision or context switch takes, the `sched_trace` interface instead records *which* tasks are scheduled at what point and corresponding job releases and deadlines.
 
-### Recording a Schedule with `sched_trace`
+### Recording a Schedule with sched_trace
 
 The main high-level tool for recording scheduling decisions is the script `st-trace-schedule`.
 
@@ -651,7 +823,7 @@ Example:
 
 As the output suggests, `st-trace-schedule` records one trace file per processor.
 
-### What does `sched_trace` data look like?
+### What does sched_trace data look like?
 
 A scheduling event is recorded whenever
 
@@ -895,28 +1067,22 @@ Suppose `example_event` is the binary of our event-driven real-time task. To man
     Terminal 1:
     ===========
     mkfifo input
-    ./example_event < input
+    tail -f input | ./example_event
     
-
-Events can be triggered by redirecting `STDOUT` to the FIFO. However, due to the way named FIFOs 
-work in Linux, we need a long-running process that keeps the FIFO open. Here we just call sleep for a long time and redirect
-its output to the named FIFO to keep it open.
+Events can be triggered by redirecting `STDOUT` to the FIFO. However, due to the way named FIFOs work in Linux, we need a long-running process that keeps the FIFO open. Here we just call `tail -f` on the FIFO and redirect
+its output to our sporadic real-time task.
 
     Terminal 2:
     ===========
-    sleep 1000 > input &
-    # The preceding command is needed to make sure
-    # the FIFO is not closed by the echo processes invoked below.
-    [1] 7009
     echo "hello" > input 
     echo "world" > input
     echo "exit" > input
 
 It should be apparent that the example task running in the first terminal is indeed triggered by the events generated in the second terminal. By giving the task running in the first terminal a large period and a small budget (e.g., several seconds and one millisecond, respectively), the effects of budget enforcement and minimum inter-arrival-time separation can be easily observed by manually triggering many events with short inter-arrival times. 
 
-## Skeleton Real-Time Tasks: `base_task` and `base_mt_task`
+## Skeleton Real-Time Tasks
 
-To provide an easy starting point for the development of custom real-time tasks, `liblitmus` comes with two example skeletons of periodic tasks that are known to compile and work.
+To provide an easy starting point for the development of custom real-time tasks, `liblitmus` comes with two example skeletons of periodic tasks that are known to compile and work, namely `base_task` and `base_mt_task`.
 
 The file `bin/base_task.c` contains an example sequential, single-threaded real-time task, which we recommend as a basis for developing real-time tasks using the `liblitmus` API.
 

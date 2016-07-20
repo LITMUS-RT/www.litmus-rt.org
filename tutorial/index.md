@@ -57,11 +57,11 @@ The slides for the guided hands-on session are available here:
 
 - [LITMUS^RT: A Hands-On Primer (PDF)](tutorial-slides.pdf)
 
-### Manual: A Guide to LITMUS^RT
+### Manual: A Tour of LITMUS^RT
 
 The material covered in the tutorial (how to select scheduling polices, how to launch tasks, how to create new tasks, how to trace, etc.) is also made available as a manual for later reference.
 
-- [A guide to LITMUS^RT](manual.html)
+- [A Tour of LITMUS^RT](manual.html)
 
 Reading the manual prior to following the hands-on tutorial is not required, but recommended.
 
@@ -74,7 +74,7 @@ We have built a pre-packaged VirtualBox image running a LITMUS^RT-based Xubuntu 
 
 To get started, download the archive, unpack the image, and launch it with the virtualization tool of your choice (e.g., [Virtual Box](https://www.virtualbox.org)). Make sure that you give the VM **at least 2 GiB of memory**.
 
-See the [detailed setup instructions](vm-setup.html) for a step-by-step walkthrough using Virtual Box.
+See the [detailed setup instructions](vm-setup.html) for a step-by-step walk-through using Virtual Box.
 
 **WARNING**: the VM image is intended for demonstration and learning purposes only. Under common hypervisors, *all timings are unreliable*. In particular, *LITMUS^RT does not provide any real-time guarantees when run under regular hypervisors* as **real-time tasks will be subject to extreme timer latency within a VM**.
 
