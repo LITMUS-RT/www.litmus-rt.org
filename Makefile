@@ -6,7 +6,7 @@ PUBLIC_WEB_DIR ?= /www/sws-websites/www.litmus-rt.org
 MD := $(shell find . -name '*.md')
 HTML_TO_GENERATE := $(subst md,html,${MD})
 
-%.html: %.md
+%.html: %.md inc/*.markdown
 	@echo '[MD]' $< '->' $@
 	@${MARKDOWN} --process-html --full -t html -o $@ $<
 
