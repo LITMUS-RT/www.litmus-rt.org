@@ -1,5 +1,5 @@
 MARKDOWN ?= multimarkdown
-PUBLIC_WEB_DIR ?= /www/sws-websites/www.litmus-rt.org 
+PUBLIC_WEB_DIR ?= /www/sws-websites/www.litmus-rt.org
 
 .PHONY: all publish autoupdate clean
 
@@ -24,6 +24,7 @@ publish: all
 		--exclude '.git*' \
 		--exclude '*.log' \
 		--exclude '*.qcow.gz' \
+		--exclude '*.qcow.tar.gz' \
 		. ${PUBLIC_WEB_DIR}
 
 autoupdate:
