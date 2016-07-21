@@ -70,7 +70,7 @@ Reading the manual prior to following the hands-on tutorial is not required, but
 
 We have built a pre-packaged VirtualBox image running a LITMUS^RT-based Xubuntu distribution. The image (3.0 GiB) comes pre-installed with all required libraries and tools.
 
-- [http://www.litmus-rt.org/tutorial/litmus-2016.1.qcow.gz](http://www.litmus-rt.org/tutorial/litmus-2016.1.qcow.gz)
+- [http://www.litmus-rt.org/tutorial/litmus-2016.1.qcow.tar.gz](http://www.litmus-rt.org/tutorial/litmus-2016.1.qcow.tar.gz)
 
 To get started, download the archive, unpack the image, and launch it with the virtualization tool of your choice (e.g., [Virtual Box](https://www.virtualbox.org)). Make sure that you give the VM **at least 2 GiB of memory**.
 

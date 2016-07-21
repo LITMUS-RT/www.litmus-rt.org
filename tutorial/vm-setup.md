@@ -15,7 +15,7 @@ First, download and install the latest version of VirtualBox:
 
 Second, download and unpack the LITMUS^RT Xubuntu Image for VirtualBox (3.0 GiB):
 
-- [http://www.litmus-rt.org/tutor16/litmus-2016.1.qcow.gz](http://www.litmus-rt.org/tutor16/litmus-2016.1.qcow.gz)
+- [http://www.litmus-rt.org/tutor16/litmus-2016.1.qcow.tar.gz](http://www.litmus-rt.org/tutor16/litmus-2016.1.qcow.tar.gz)
 
 
 Third, create a new guest VM based on the downloaded image.  The following steps describe how to create a new guest in VirtualBox using the provided image.
