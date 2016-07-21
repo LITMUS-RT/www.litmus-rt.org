@@ -19,10 +19,10 @@ scheduling policies:
 - Partitioned EDF with synchronization support (PSN-EDF),
 - Global EDF with synchronization support (GSN-EDF),
 - Clustered EDF (C-EDF),
-- Partitioned Fixed-Priority (P-FP), 
+- Partitioned Fixed-Priority (P-FP),
 - Partitioned [Reservation-Based Scheduling](https://github.com/LITMUS-RT/liblitmus/blob/master/doc/howto-use-resctl.md) (P-RES), and
 - PD^2, with either staggered or aligned quanta (PFAIR).
-    
+
 Please refer to the <a href="http://wiki.litmus-rt.org/litmus/Releases">download</a> and <a href="http://wiki.litmus-rt.org/litmus/InstallationInstructions">installation</a> wiki pages for details.
 
 
@@ -37,7 +37,7 @@ As a secondary goal, LITMUS^RT serves as a **proof of concept**, showing how alg
 
 ## Non-Goals
 
-LITMUS^RT is a research prototype that is reasonably stable and tested---it works---but there are currently no plans to turn it into a production-quality system suitable for safety- or mission-critical applications.
+LITMUS^RT is a research prototype that is reasonably stable and tested---it works---but we do not have the resources to maintain a rigorous QA regime as it would be expected of a production-quality system suitable for safety- or mission-critical applications.
 
 Furthermore, LITMUS^RT's API is not "stable," that is, interfaces and implementations may change without warning between releases. POSIX-compliance is not a goal; the LITMUS^RT-API offers alternate system call interfaces.
 
