@@ -78,7 +78,7 @@ See the [detailed setup instructions](vm-setup.html) for a step-by-step walk-thr
 
 **WARNING**: the VM image is intended for demonstration and learning purposes only. Under common hypervisors, *all timings are unreliable*. In particular, *LITMUS^RT does not provide any real-time guarantees when run under regular hypervisors* as **real-time tasks will be subject to extreme timer latency within a VM**.
 
-That said, a VM is perfectly adequate for getting to learn LITMUS^RT.
+That said, a VM is perfectly adequate for getting to know LITMUS^RT.
 
 ## Login information
 
