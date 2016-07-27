@@ -25,6 +25,7 @@ publish: all
 		--exclude '*.log' \
 		--exclude '*.qcow.gz' \
 		--exclude '*.qcow.tar.gz' \
+		--exclude '*.qcow.tgz' \
 		. ${PUBLIC_WEB_DIR}
 
 autoupdate:
