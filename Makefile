@@ -34,3 +34,6 @@ autoupdate:
 		echo "[UP] pulled an update on" `date`; \
 		make publish; \
 	fi
+
+public:
+	git push && git checkout public && git merge master && git push && git checkout master
