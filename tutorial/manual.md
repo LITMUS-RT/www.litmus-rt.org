@@ -19,7 +19,7 @@ CSS:    ../inc/format.css
 
 This guide provides an introduction to the user-facing parts of LITMUS^RT, namely (3) and (4), and assumes that the kernel (with the LITMUS^RT modifications in place) has already been compiled and is working. How to modify  the kernel itself, and in particular how to develop new policy plugins, is beyond the scope of this guide.
 
-This guide describes LITMUS^RT as of version 2016.1 (released in July 2016).
+This guide describes LITMUS^RT as of version 2017.1 (released in May 2017).
 
 ## Table of Contents
 
@@ -44,7 +44,7 @@ As already mentioned, LITMUS^RT augments the Linux kernel with a number of predi
 
 At all times, the **active plugin** determines the current scheduling policy in a LITMUS^RT kernel. When the system boots up, it initially uses the dummy *Linux* plugin, which simply disables all LITMUS^RT functionality (which is not needed during bootup). Hence, before using any LITMUS^RT features, one of the available policy plugins must be activated with a **plugin switch** (as discussed in more detail below).
 
-As of version 2016.1, the following real-time scheduling policies are built into the LITMUS^RT kernel:
+As of version 2017.1, the following real-time scheduling policies are built into the LITMUS^RT kernel:
 
 -   Linux : A dummy scheduling policy for disabling real-time functionality
 -   P-FP : Partitioned, *fixed-priority* scheduling

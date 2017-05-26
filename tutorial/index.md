@@ -4,7 +4,7 @@ CSS:    ../inc/format.css
 
 {{../inc/header2.markdown}}
 
-# Getting Started with LITMUS^RT 2016.1
+# Getting Started with LITMUS^RT
 
 LITMUS^RT is a real-time extension of the Linux kernel with a focus on multiprocessor real-time scheduling and synchronization that has been continuously maintained and updated since 2006. In the past decade, LITMUS^RT has been employed by several groups in North and South America, Europe, and Asia, and to date has played a part in over 50 conference and workshop papers, as well as eight MSc and PhD theses ([list of publications](https://wiki.litmus-rt.org/litmus/Publications)).
 

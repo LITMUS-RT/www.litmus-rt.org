@@ -4,35 +4,18 @@ CSS:    inc/format.css
 
 {{inc/header.markdown}}
 
-## About
+# About
 
-The LITMUS^RT patch is **a real-time extension of the Linux kernel** with a focus on multiprocessor real-time scheduling and synchronization. The Linux kernel is modified to support the sporadic task model and modular scheduler plugins. Clustered, partitioned, and global scheduling are included, and semi-partitioned scheduling is supported as well.
+LITMUS^RT is **a real-time extension of the Linux kernel** with a focus on multiprocessor real-time scheduling and synchronization. The Linux kernel is modified to support the sporadic task model, modular scheduler plugins, and reservation-based scheduling. Clustered, partitioned, and global schedulers are included, and semi-partitioned scheduling is supported as well.
 
-LITMUS^RT has been continuously maintained since 2006 and is still being actively developed (as of 2016).
-
-## Current Version
-
-The current version of LITMUS^RT is **2016.1** and is based on Linux 4.1.3.
-It was released on June 22, 2016 and includes plugins for the following
-scheduling policies:
-
-- Partitioned EDF with synchronization support (PSN-EDF),
-- Global EDF with synchronization support (GSN-EDF),
-- Clustered EDF (C-EDF),
-- Partitioned Fixed-Priority (P-FP),
-- Partitioned [Reservation-Based Scheduling](https://github.com/LITMUS-RT/liblitmus/blob/master/doc/howto-use-resctl.md) (P-RES), and
-- PD^2, with either staggered or aligned quanta (PFAIR).
-
-Please refer to the <a href="http://wiki.litmus-rt.org/litmus/Releases">download</a> and <a href="http://wiki.litmus-rt.org/litmus/InstallationInstructions">installation</a> wiki pages for details.
-
+LITMUS^RT has been continuously maintained since 2006 and is still being actively developed (as of 2017).
 
 
 ## Goals
 
 The primary purpose of the LITMUS^RT project is to **provide  a useful experimental platform for applied real-time systems research**. To that end, LITMUS^RT provides abstractions and interfaces within the kernel that simplify the prototyping of multiprocessor real-time scheduling and synchronization algorithms (compared to modifying a "vanilla" Linux kernel).
 
-As a secondary goal, LITMUS^RT serves as a **proof of concept**, showing how algorithms such as Pfair schedulers and predictable multiprocessor locking protocols can be implemented on current hardware. Finally, we hope that parts of LITMUS^RT and the "lessons learned" may find value as blueprints/sources of inspiration for other  implementation efforts (both commercial and open source).
-
+As a secondary goal, LITMUS^RT serves as a **proof of concept**, showing how  predictable multiprocessor schedulers and locking protocols can be implemented on current hardware. Finally, we hope that parts of LITMUS^RT and the "lessons learned" may find value as blueprints, or as a source of inspiration, for other  implementation efforts (both commercial and open source).
 
 
 ## Non-Goals
@@ -43,6 +26,24 @@ Furthermore, LITMUS^RT's API is not "stable," that is, interfaces and implementa
 
 While we aim to follow Linux-coding standards, LITMUS^RT is not targeted at being merged into mainline Linux. Rather, we hope that some of the ideas protoyped in LITMUS^RT may eventually find adoption in Linux or other kernels.
 
+## Current Version
+
+The current version of LITMUS^RT is **2017.1** and is based on Linux 4.9.30.
+It was released on May 26, 2017 and includes plugins for the following
+scheduling policies:
+
+- Partitioned EDF with synchronization support (PSN-EDF),
+- Global EDF with synchronization support (GSN-EDF),
+- Clustered EDF (C-EDF),
+- Partitioned Fixed-Priority (P-FP),
+- Partitioned [Reservation-Based Scheduling](https://github.com/LITMUS-RT/liblitmus/blob/master/doc/howto-use-resctl.md) (P-RES), and
+- PD^2, with either staggered or aligned quanta (PFAIR).
+
+Please refer to the [download](download.html) and [installation](installation.html) pages for details.
+
+## Getting Help
+
+To get in contact with the LITMUS^RT community, please use the <a href="https://wiki.litmus-rt.org/litmus/Mailinglist">mailing list</a>.
 
 ## Credit
 
@@ -57,8 +58,6 @@ When referencing LITMUS^RT, please cite two publications:
 2. The **description of the current version**: B. Brandenburg, "Scheduling and Locking in Multiprocessor Real-Time Operating Systems", PhD thesis, UNC Chapel Hill, 2011.
 
 While [1] is the first publication on LITMUS^RT, the first public release of LITMUS^RT was actually based on a reimplementation in 2007. All versions since 2007 are best described by the detailed description in [2].
-
-To get in contact with the LITMUS^RT community, please use the <a href="https://wiki.litmus-rt.org/litmus/Mailinglist">mailing list</a>.
 
 
 {{inc/footer.markdown}}

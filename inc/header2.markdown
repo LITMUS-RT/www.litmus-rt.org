@@ -9,8 +9,8 @@
 [tutorial](../tutorial/index.html) -
 [manual](../tutorial/manual.html) -
 [wiki](http://wiki.litmus-rt.org/) -
-[download](http://wiki.litmus-rt.org/litmus/Releases) -
-[installation](http://wiki.litmus-rt.org/litmus/InstallationInstructions) -
+[download](../download.html) -
+[installation](../installation.html) -
 [publications](http://wiki.litmus-rt.org/litmus/Publications) -
 [credits](../credits.html)
 
