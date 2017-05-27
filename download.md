@@ -8,14 +8,11 @@ CSS:    inc/format.css
 
 The source code of the LITMUS^RT project is hosted on [GitHub](https://github.com/LITMUS-RT).
 
-The three main repositories are
+The three main repositories provide
 
-- the [LITMUS^RT kernel](https://github.com/LITMUS-RT/litmus-rt) repository,
-- the repository [liblitmus user-space library](https://github.com/LITMUS-RT/liblitmus), and
-- the [Feather-Trace tools](https://github.com/LITMUS-RT/feather-trace-tools) repository. 
-
-Please refer to the [installation instructions](install.html) for additional details.
-
+- the [LITMUS^RT kernel](https://github.com/LITMUS-RT/litmus-rt),
+- the [liblitmus user-space library](https://github.com/LITMUS-RT/liblitmus), and
+- the [Feather-Trace tracing tools](https://github.com/LITMUS-RT/feather-trace-tools). 
 
 
 ## Contents and Main Branches
@@ -33,6 +30,9 @@ To obtain the latest LITMUS^RT version, simply clone each of the three repositor
 	git clone https://github.com/LITMUS-RT/liblitmus.git
 	
 	git clone https://github.com/LITMUS-RT/feather-trace-tools.git
+
+Please refer to the [installation instructions](install.html) for additional details.
+
 
 ## Obtaining a Specific Release
 
