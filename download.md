@@ -31,7 +31,7 @@ To obtain the latest LITMUS^RT version, simply clone each of the three repositor
 	
 	git clone https://github.com/LITMUS-RT/feather-trace-tools.git
 
-Please refer to the [installation instructions](install.html) for additional details.
+Please refer to the [installation instructions](installation.html) for additional details.
 
 
 ## Obtaining a Specific Release
