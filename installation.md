@@ -16,10 +16,10 @@ These instructions were tested on 32- and 64-bit versions of Ubuntu 14.04 and 16
 
 ## Prerequisites
 
-Some Linux systems, including Ubuntu 14.04, do not have `git` or the `ncurses` library installed by default. Both of these are needed for these instructions, and can be installed on Debian-based systems (including Ubuntu) using this command:
+Some Linux systems, including Ubuntu 14.04, do not have `git` or the `ncurses` and `openssl` libraries installed by default. These are needed for compiling LITMUS^RT, and can be installed on Debian-based systems (including Ubuntu) using this command:
 
 ```bash
-sudo apt install libncurses-dev git
+sudo apt install libncurses-dev git libssl-dev
 ```
 
 Create a directory to contain all of the litmus-related code. This directory is identified using the `$DIR` environment variable for the remainder of this tutorial:
