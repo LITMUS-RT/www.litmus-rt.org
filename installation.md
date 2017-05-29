@@ -86,21 +86,14 @@ You'll need to find and adjust several configuration options. I'll include the l
 
  - Disable group scheduling.
 
-    - Under `General setup`->`Control group support`, disable the `Group CPU scheduler` option.
-
-    - Disable the `Automatic process group scheduling` option under `General setup` if it's available.
+    - First, disable the `Automatic process group scheduling` option under `General setup`.
+    - Second, under `General setup`->`Control group support`->`CPU controller`, disable `Group scheduling for SCHED_OTHER`
 
  - Disable frequency scaling and power management options that affect timer frequency.
 
     - Under `General setup`->`Timers subsystem`->`Timer tick handling`, set the option to `constant rate, no dynticks`.
-
     - Under `Power management and ACPI options`, make sure that `Suspend to RAM and standby`, `Hibernation` and `Opportunistic sleep` are disabled.
-
     - Under `Power management and ACPI options`->`CPU Frequency scaling`, disable `CPU Frequency scaling`.
-
- - Disable write protection for read-only kernel data structures.
-
-    - Under `Kernel hacking`, disable the `Write protect kernel read-only data structures` option.
 
 <!--
  - On my system, the AS102 driver would encounter a compilation error when building the LITMUS^RT kernel, so I disabled it. This isn't necessary unless you encounter compilation errors in `as102`-related files.
@@ -114,9 +107,13 @@ You'll need to find and adjust several configuration options. I'll include the l
     - Under `LITMUS^RT`->`Tracing`, enable `TRACE() debugging`
     - Note that this is a **high-overhead** debug tracing interface that must not be enabled for any benchmarks or production use of the system.
 
+After finishing making configuration changes, save the updated configuration (keep the `.config` name). One final configuration option is not available in the menu and needs to be made by hand:
+
+  - Edit the `.config` file, comment out the line containing `CONFIG_DEBUG_RODATA=y`, and save the changes.
+
 ## Compiling the LITMUS^RT kernel
 
-After finishing making configuration changes, save the updated configuration (keep the `.config` name), and then run the following commands to build the LITMUS^RT kernel:
+Run the following commands to build the LITMUS^RT kernel:
 
 ```bash
 make bzImage
