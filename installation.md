@@ -107,13 +107,10 @@ You'll need to find and adjust several configuration options. I'll include the l
     - Under `LITMUS^RT`->`Tracing`, enable `TRACE() debugging`
     - Note that this is a **high-overhead** debug tracing interface that must not be enabled for any benchmarks or production use of the system.
 
-After finishing making configuration changes, save the updated configuration (keep the `.config` name). One final configuration option is not available in the menu and needs to be made by hand:
-
-  - Edit the `.config` file, comment out the line containing `CONFIG_DEBUG_RODATA=y`, and save the changes.
 
 ## Compiling the LITMUS^RT kernel
 
-Run the following commands to build the LITMUS^RT kernel:
+After finishing making configuration changes, save the updated configuration (keep the `.config` name). Afterwards, run the following commands to build the LITMUS^RT kernel:
 
 ```bash
 make bzImage
