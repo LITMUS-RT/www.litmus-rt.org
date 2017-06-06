@@ -14,7 +14,7 @@ We know that the code from step 2 is working due to the `EINVAL` error, but but 
 
 In most modules for the standard Linux kernel, `printk` is generally the go-to choice for writing debug messages to the kernel log. `printk`, however, requires some kernel locks and therefore can cause deadlock if we use it within a LITMUS^RT plugin when making scheduling decisions. LITMUS^RT provides the `TRACE` macro instead, which functions identically to `printk` from the programmer's perspective but doesn't require locking.
 
-## Modifying our basic code to include a TRACE` statement
+## Modifying our basic code to include a TRACE statement
 
 Modify the `demo_admit_task` from step 2 to contain a `TRACE` statement:
 
