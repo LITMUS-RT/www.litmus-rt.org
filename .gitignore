@@ -2,7 +2,12 @@
 src/
 update.log
 credits.html
+download.html
 index.html
+installation.html
 tutorial/index.html
 tutorial/manual.html
 tutorial/vm-setup.html
+create_plugin/plugin_step_*.html
+create_plugin/create_plugin.html
+

@@ -7,7 +7,7 @@ CSS:    inc/format.css
 Installing LITMUS^RT
 ====================
 
-Working with LITMUS^RT generally requires compiling the entire LITMUS^RT kernel from source, and then installing liblitmus and Feather-Trace. The following instructions include all of the necessary compilation and installation steps.
+Working with LITMUS^RT generally requires compiling the entire LITMUS^RT kernel from source, and then installing liblitmus and Feather-Trace. The following instructions include cover all of the necessary compilation and installation steps.
 
 {{TOC}}
 
@@ -188,5 +188,5 @@ make
 
 ## Next Steps
 
-At this point, reboot the system into LITMUS^RT and try running a few examples. Check out the [tutorial](tutorial/index.html) for some initial steps. 
+At this point, reboot the system into LITMUS^RT and try running a few examples. Check out the [tutorial](tutorial/index.html) for some initial steps, or the [plugin creation tutorial](create_plugin/create_plugin.html) to start writing a LITMUS^RT scheduler plugin.
 

@@ -235,6 +235,7 @@ hr {
 
 code {
 	font-family:  Menlo, Monaco, Courier, "Courier New", monospace;
+	overflow: scroll;
 }
 
 pre {
@@ -245,6 +246,7 @@ pre {
   color: #cccccc;
   border: 2px solid #cccccc;
   font-size: 11pt;
+  overflow-x: auto;
 }
 
 .shell {
