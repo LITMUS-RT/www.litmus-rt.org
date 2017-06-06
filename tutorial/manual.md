@@ -17,7 +17,7 @@ CSS:    ../inc/format.css
 4. comes with *Feather-Trace*, a **low-overhead tracing** framework.
 
 
-This guide provides an introduction to the user-facing parts of LITMUS^RT, namely (3) and (4), and assumes that the kernel (with the LITMUS^RT modifications in place) has already been compiled and is working. How to modify  the kernel itself, and in particular how to develop new policy plugins, is beyond the scope of this guide.
+This guide provides an introduction to the user-facing parts of LITMUS^RT, namely (3) and (4), and assumes that the kernel (with the LITMUS^RT modifications in place) has already been compiled and is working. How to modify  the kernel itself, and in particular how to develop new policy plugins, is beyond the scope of this guide. We instead refer those insterested in developing new plugins to the [plugin creation tutorial](../create_plugin/create_plugin.html).
 
 This guide describes LITMUS^RT as of version 2017.1 (released in May 2017).
 
@@ -77,7 +77,7 @@ can then be later activated (one at a time) by the root user.
 
 
 At runtime, scheduler plugins are managed via a simple `/proc` interface that is exposed under `/proc/litmus`. While all files under `/proc/litmus` can be manually read or written for management purposes,  it is often easier and more
-convenient to use the higher-level tools offered by `liblitmus`.  In the following, we discuss a list of basic user-space commands related to plugin management, followed by an example.
+convenient to use the higher-level tools offered by `liblitmus`. In the following, we discuss a list of basic user-space commands related to plugin management, followed by an example.
 
 All the commands mentioned in the following must be executed as root.
 

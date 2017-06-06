@@ -30,7 +30,7 @@ This tutorial is aimed at learning how to *use* LITMUS^RT. The following topics 
 5. how to use of LITMUS^RT's built-in tracing capabilities to record and evaluate scheduling traces (e.g., to observe actual execution costs, deadline miss ratios, tardiness, preemption and migration counts, etc.), and
 6. how to measure system overheads (e.g., scheduling and context switch overheads, release latency, etc.).
 
-Kernel development is beyond the scope of this tutorial.
+Kernel development is beyond the scope of this tutorial. If you want to develop a new plugin for LITMUS^RT, see the [plugin creation tutorial](../create_plugin/create_plugin.html) instead.
 
 ## Prerequisites
 
