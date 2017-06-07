@@ -7,7 +7,7 @@ CSS:    inc/format.css
 Installing LITMUS^RT
 ====================
 
-Working with LITMUS^RT generally requires compiling the entire LITMUS^RT kernel from source, and then installing liblitmus and Feather-Trace. The following instructions include cover all of the necessary compilation and installation steps.
+Working with LITMUS^RT generally requires compiling the entire LITMUS^RT kernel from source, and then installing liblitmus and Feather-Trace. The following instructions include all of the necessary compilation and installation steps.
 
 {{TOC}}
 
