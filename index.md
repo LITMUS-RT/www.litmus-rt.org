@@ -39,7 +39,7 @@ scheduling policies:
 - Partitioned [Reservation-Based Scheduling](https://github.com/LITMUS-RT/liblitmus/blob/master/doc/howto-use-resctl.md) (P-RES), and
 - PD^2, with either staggered or aligned quanta (PFAIR).
 
-Please refer to the [download](download.html) and [installation](installation.html) pages for details.
+Please refer to the [download](download.html) and [documentation](documentation.html) pages for more details about installing and working with LITMUS^RT.
 
 ## Getting Help
 
