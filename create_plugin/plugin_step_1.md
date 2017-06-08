@@ -4,7 +4,7 @@ CSS:    ../inc/format.css
 {{../inc/header2.markdown}}
 
 Step 1: Adding an empty source file to the LITMUS^RT kernel
-===========================================================
+-----------------------------------------------------------
 
 The first step in creating a new plugin will be to create a place for the plugin's code in the LITMUS^RT kernel. These following steps assume that the root kernel source directory is named `litmus-rt`.
 

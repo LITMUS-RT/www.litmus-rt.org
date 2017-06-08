@@ -1,4 +1,4 @@
-Title:  Writing a LITMUS^RT Scheulder Plugin
+Title:  Writing a LITMUS^RT Scheduler Plugin
 CSS:    ../inc/format.css
 
 {{../inc/header2.markdown}}

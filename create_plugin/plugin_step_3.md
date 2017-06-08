@@ -4,7 +4,7 @@ CSS:    ../inc/format.css
 {{../inc/header2.markdown}}
 
 Step 3: Creating debug messages using TRACE
-===========================================
+-------------------------------------------
 
 We know that the code from step 2 is working due to the `EINVAL` error, but but debugging a new plugin will likely require recording more detailed logging. Step 3 includes how this can be accomplished in LITMUS^RT plugins.
 
@@ -33,7 +33,7 @@ In this example, we used `TRACE_TASK`, which takes a `task_struct` pointer in ad
 
 For the `TRACE` macro to work, make sure that you have enabled `TRACE() debugging` when configuring your kernel build (it's under `LITMUS^RT`->`Tracing` in the configuration menu).
 
-After rebuilding the kernel and rebooting, try submitting another real-time task to the DEMO plugin, and viewing the LITMUS^RT log. As root, run these commands:
+After rebuilding the kernel and rebooting, try submitting another real-time task to the DEMO plugin, and viewing the LITMUS^RT log. _As root_, run these commands:
 
 ```bash
 # Start using the DEMO scheduler plugin.
@@ -66,7 +66,19 @@ The log should contain lines similar to the following:
 28 P1 [exit_litmus@litmus/litmus.c:599]: (rtspin/2076:0) freeing ctrl_page ffff9709a4933000
 ```
 
-Notice the line `[demo_admit_task@litmus/sched_demo.c:19]: (rtspin/2076:0) The task was rejected by the DEMO plugin.` corresponding to our `TRACE_TASK` invocation. If you are seeing a lot of "noise" in the log similar to `SCHED_STATE [P0] 0x1 (TASK_SCHEDULED) -> 0x4 (WILL_SCHEDULE)`, this is the result of the configuration option `CONFIG_PREEMPT_STATE_TRACE`, which can be disabled in the kernel configuration (disable the option at `LITMUS^RT`->`Tracing`->`Trace preemption state machine transitions`).
+Notice the line containing `The task was rejected by the DEMO plugin.` corresponding to our `TRACE_TASK` invocation.
+
+Depending on your kernel build configuration, you may also see a lot of "noise" in the log similar to:
+
+```
+SCHED_STATE [P0] 0x1 (TASK_SCHEDULED) -> 0x4 (WILL_SCHEDULE)
+```
+
+Messages like this are the result of the configuration option `CONFIG_PREEMPT_STATE_TRACE`, which can be disabled in the kernel configuration. To do so, disable the option at `LITMUS^RT`->`Tracing`->`Trace preemption state machine transitions`.
+
+## Source code
+
+The full code for this step of the tutorial is available [here](./sched_demo_step3.c).
 
 <div class="nav">
 [Previous: Step 2 - Stub functions](plugin_step_2.html) -
