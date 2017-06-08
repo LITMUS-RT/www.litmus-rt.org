@@ -4,7 +4,7 @@ CSS:    ../inc/format.css
 {{../inc/header2.markdown}}
 
 Step 4: Defining per-CPU scheduling state for P-EDF
-===================================================
+---------------------------------------------------
 
 Steps 1 through 3 set up skeleton code for a scheduler plugin, and demonstrated how to log debug messages. In step 4, we'll finally start adding code to support a Partitioned-EDF scheduler, starting with per-CPU state.
 
@@ -106,6 +106,10 @@ This should generate output that includes the following lines (depending on the 
 3 P2 [demo_activate_plugin@litmus/sched_demo.c:48]: Initializing CPU2...
 4 P2 [demo_activate_plugin@litmus/sched_demo.c:48]: Initializing CPU3...
 ```
+
+## Source code
+
+The full code for this step of the tutorial is available [here](./sched_demo_step4.c).
 
 <div class="nav">
 [Previous: Step 3 - `TRACE`](plugin_step_3.html) -

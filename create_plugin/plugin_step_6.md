@@ -4,7 +4,7 @@ CSS:    ../inc/format.css
 {{../inc/header2.markdown}}
 
 Step 6: Task state changes
-==========================
+--------------------------
 
 Changes to Task state, and in particular self-suspensions (such as waiting for I/O), are one of the "real-world" aspects that make scheduling difficult in practice.
 
@@ -142,6 +142,10 @@ static struct sched_plugin demo_plugin = {
 ## Testing the changes
 
 Now, you can make sure the plugin still compiles and runs. It still won't admit tasks, though. In the next step, we'll enable preemptive scheduling.
+
+## Source code
+
+The full code for this step of the tutorial is available [here](./sched_demo_step6.c).
 
 <div class="nav">
 [Previous: Step 5 - Scheduling logic](plugin_step_5.html) -

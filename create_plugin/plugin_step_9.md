@@ -5,7 +5,7 @@ CSS:    ../inc/format.css
 
 <!-- Using "`proc`" (with backticks) here will break the table of contents in mmd version 5 -->
 Step 9: Exporting plugin topology in /proc
-==========================================
+------------------------------------------
 
 The userspace library `liblitmus` offers several functions that allow tasks to migrate to the appropriate CPUs under partitioned and clustered schedulers. This code needs to know which CPUs a particular plugin considers to form a "partition" or a "cluster". To enable `liblitmus` to work as intended, a plugin must hence export the required topology hints via the `/proc/` filesystem, for which LITMUS^RT provides a wrapper API.
 
@@ -141,6 +141,10 @@ sudo ./rtspin -p 1 10 100 5
 ```
 
 The `rtspin` instance in the above sample should terminate after 5 seconds and produce no output. The exact behavior of the plugin can be observed using the `sched_trace` infrastructure described in the tracing tutorial.
+
+## Source code
+
+The full code for this step of the tutorial (the full working plugin) is available [here](./sched_demo.c).
 
 <div class="nav">
 [Previous: Step 8 - Admitting tasks](plugin_step_8.html)

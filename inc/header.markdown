@@ -8,6 +8,7 @@
 [about](index.html) -
 [documentation](documentation.html) -
 [download](download.html) -
+[contact](contact.html) -
 [publications](http://wiki.litmus-rt.org/litmus/Publications) -
 [credits](credits.html)
 

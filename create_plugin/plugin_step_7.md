@@ -4,7 +4,7 @@ CSS:    ../inc/format.css
 {{../inc/header2.markdown}}
 
 Step 7: Adding preemption checks
-================================
+--------------------------------
 
 The scheduling logic so far selects the next job to be scheduled using EDF priorities whenever the scheduler is invoked. However, the scheduler still does not implement _preemptive_ EDF scheduling because it is not automatically invoked when a new job is released. In this step, we are going to rectify this by adding a preemption check callback to the real-time domain `local_queues` embedded in `struct demo_cpu_state`.
 
@@ -143,6 +143,10 @@ Once again, the only change is the addition of the `if (edf_preemption_needed ..
 ## Testing
 
 Once again, make sure that the plugin compiles and runs. In the next step, we'll finally let it accept real-time tasks.
+
+## Source code
+
+The full code for this step of the tutorial is available [here](./sched_demo_step7.c).
 
 <div class="nav">
 [Previous: Step 6 - Task state changes](plugin_step_6.html) -

@@ -4,7 +4,7 @@ CSS:    ../inc/format.css
 {{../inc/header2.markdown}}
 
 Step 5: Adding P-EDF scheduling logic
-=====================================
+-------------------------------------
 
 Step 4 covered adding necessary state variables to our plugin, so we're now ready to define how the DEMO plugin selects the task that should be scheduled next. Since we're implementing a P-EDF scheduler, we will use the `edf_preemption_needed()` function from `litmus/edf_common.h` to determine when the previous task should be preempted.
 
@@ -161,6 +161,10 @@ The final lines carry out the actual scheduling decision. If `prev` needs to be 
 ## Testing
 
 With these changes in place, the kernel should compile and boot without problems. However, scheduling is still not possible because all tasks are still being rejected. Before tasks can be accepted, however, we need to add support for task state changes (i.e., self-suspensions).
+
+## Source code
+
+The full code for this step of the tutorial is available [here](./sched_demo_step5.c).
 
 <div class="nav">
 [Previous: Step 4 - Per-CPU state](plugin_step_4.html) -

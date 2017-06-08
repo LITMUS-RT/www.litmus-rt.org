@@ -4,7 +4,7 @@ CSS:    ../inc/format.css
 {{../inc/header2.markdown}}
 
 Step 2: Adding stub functions for a LITMUS^RT plugin
-====================================================
+----------------------------------------------------
 
 The first step just added an empty file to the LITMUS^RT kernel. In this step, we'll actually include some placeholder code for the new module.
 
@@ -82,6 +82,10 @@ cd liblitmus
 # Creating a real-time task should fail due to an invalid argument error
 ./rt-spin 10 100 10
 ```
+
+## Source code
+
+The full code for this step of the tutorial is available [here](./sched_demo_step2.c).
 
 <div class="nav">
 [Previous: Step 1 - Adding files](plugin_step_1.html) -
