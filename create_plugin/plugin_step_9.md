@@ -11,7 +11,7 @@ The userspace library `liblitmus` offers several functions that allow tasks to m
 
 {{TOC}}
 
-## Using the LITMUS^RT API to provide domain information
+### Using the LITMUS^RT API to provide domain information
 
 To access the LITMUS^RT topology hints API, the plugin needs to include `litmus/litmus_proc.h`. Add the following to the list of includes in `sched_demo.c`:
 
@@ -37,7 +37,7 @@ static long demo_get_domain_proc_info(struct domain_proc_info **ret)
 
 We'll later update the plugin's `struct sched_plugin` instance to include the `demo_get_domain_proc_info` callback, but first we will add code to initialize `demo_domain_proc_info`.
 
-## Initializing the domain info structure
+### Initializing the domain info structure
 
 When the plugin is activated, the current topology must be stored in `demo_domain_proc_info`. In short, in a simple partitioned plugin such as the `DEMO` plugin, each processor forms its own "scheduling domain". The initialization code shown here iterates over all online CPUs and creates an entry for the corresponding "scheduling domain". Add this function to `sched_demo.c`, somewhere before the `demo_activate_plugin` function:
 
@@ -91,7 +91,7 @@ static long demo_activate_plugin(void)
 }
 ```
 
-## Adding a cleanup function
+### Adding a cleanup function
 
 LITMUS^RT supports another callback function that is invoked whenever a plugin is unloaded. We'll use this callback to tell LITMUS^RT to clean up any state used for this plugin's `/proc` interface. Add the following function to `sched_demo.c`:
 
@@ -103,7 +103,7 @@ static long demo_deactivate_plugin(void)
 }
 ```
 
-## Registering the new callback functions
+### Registering the new callback functions
 
 Finally, we'll need to add the `demo_deactivate_plugin` and `demo_setup_domain_proc` functions to the `demo_plugin` struct:
 
@@ -121,7 +121,7 @@ static struct sched_plugin demo_plugin = {
 };
 ```
 
-## Testing
+### Testing
 
 With these changes in place, our P-EDF scheduler should be complete and ready for use by `liblitmus`. To test the changes:
 
@@ -142,7 +142,7 @@ sudo ./rtspin -p 1 10 100 5
 
 The `rtspin` instance in the above sample should terminate after 5 seconds and produce no output. The exact behavior of the plugin can be observed using the `sched_trace` infrastructure described in the tracing tutorial.
 
-## Source code
+### Source code
 
 The full code for this step of the tutorial (the full working plugin) is available [here](./sched_demo.c).
 

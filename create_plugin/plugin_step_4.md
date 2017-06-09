@@ -10,7 +10,7 @@ Steps 1 through 3 set up skeleton code for a scheduler plugin, and demonstrated 
 
 {{TOC}}
 
-## Including some headers
+### Including some headers
 
 To begin, add the following lines to the beginning of `litmus/sched_demo.c`:
 
@@ -30,7 +30,7 @@ These includes bring in several definitions we'll need:
  - `litmus/rt_domain.h`: Contains definitions relating to "real-time domains", and includes ready-made definitions for release and ready queues.
  - `litmus/edf_common.h`: Contains common definitions related to EDF priority and EDF-related helper functions.
 
-## Per-processor state
+### Per-processor state
 
 To implement the P-EDF scheduler, we need a ready queue and a release queue on each processor. We will use the `rt_domain_t` abstraction, from `litmus/rt_domain.h` to handle this. We also need to know which task is currently scheduled. For convenience, we'll keep track of each CPU's ID in its local state (this will make preemptions easier in a later step). This leads to the following definition of struct `demo_cpu_state`, which will encompass all CPU-local state of the DEMO scheduler. Add the following definitions near the top (after the `#include`s) of `sched_demo.c`:
 
@@ -50,7 +50,7 @@ static DEFINE_PER_CPU(struct demo_cpu_state, demo_cpu_state);
 
 Note that we use Linux's per-processor allocation macro, `DEFINE_PER_CPU()`, to statically allocate the state required for the plugin. To make the later code more readable, we also define two accessor macros to wrap Linux's per-cpu data structure API: `cpu_state_for()` and `local_cpu_state()`.
 
-## Initializing the new per-CPU state
+### Initializing the new per-CPU state
 
 To make sure that the per-processor state is properly initialized, we are next going to add the plugin activation callback. The `activate_plugin()` callback of a plugin is invoked when the plugin is selected by the user (with `setsched` in `liblitmus`) and is a good place to implement plugin initialization tasks.
 
@@ -88,7 +88,7 @@ static struct sched_plugin demo_plugin = {
 };
 ```
 
-## Testing the changes
+### Testing the changes
 
 Finally, rebuild the LITMUS^RT kernel and reboot. Like in step 3, we'll test our changes by checking the LITMUS^RT kernel's log:
 
@@ -107,7 +107,7 @@ This should generate output that includes the following lines (depending on the 
 4 P2 [demo_activate_plugin@litmus/sched_demo.c:48]: Initializing CPU3...
 ```
 
-## Source code
+### Source code
 
 The full code for this step of the tutorial is available [here](./sched_demo_step4.c).
 

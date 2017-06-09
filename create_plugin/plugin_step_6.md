@@ -12,7 +12,7 @@ The scheduling function implemented in the previous step handles tasks that susp
 
 {{TOC}}
 
-## New and exiting tasks
+### New and exiting tasks
 
 A task is considered "new" when it becomes a real-time task. New tasks may be either already running or suspended. If a real-time task initializes itself, it should already be running when our plugin is notified. On the other hand, real-time tasks initialized by a separate initialization task are likely to be "new" while still in a suspended state.
 
@@ -80,7 +80,7 @@ static void demo_task_exit(struct task_struct *tsk)
 
 Note that for the purpose of keeping the tutorial simple, the above implementation of `demo_task_exit()` does not handle the case where one task revokes the real-time status of a different task that is still queued on the ready queue. A robust implementation could handle this by checking whether the exiting task is still part of some queue. This tutorial is just for learning and testing purposes, though, so we will simply avoid creating such a situation in our testing.
 
-## Resuming tasks
+### Resuming tasks
 
 Tasks that resume must be re-added to the ready or release queue, depending on when they resume. Additionally, sporadic tasks that were suspended for a "long" time are considered to experience a sporadic job release and must be given a new budget and deadline. This logic is contained in the `demo_task_resume` function, which should be added to `sched_demo.c`:
 
@@ -123,7 +123,7 @@ There are two important things to note. First, on the line assigning `*state = c
 
 Second, note that it may be the case that tsk is still scheduled, which we check using `if (state->scheduled != tsk)`. This can happen if the wakeup happens shortly after the task initiated its self-suspension, which allows the wakeup on a remote CPU to race with the suspension and to be handled before the local CPU managed to process the self-suspension. (Note that the ready queue lock serializes remote wakeups and local scheduling decisions.)
 
-## Plugin definition
+### Plugin definition
 
 Finally, update the `struct sched_plugin` instance to include our plugin's new callback functions:
 
@@ -139,11 +139,11 @@ static struct sched_plugin demo_plugin = {
 };
 ```
 
-## Testing the changes
+### Testing the changes
 
 Now, you can make sure the plugin still compiles and runs. It still won't admit tasks, though. In the next step, we'll enable preemptive scheduling.
 
-## Source code
+### Source code
 
 The full code for this step of the tutorial is available [here](./sched_demo_step6.c).
 

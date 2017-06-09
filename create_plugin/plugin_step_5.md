@@ -10,7 +10,7 @@ Step 4 covered adding necessary state variables to our plugin, so we're now read
 
 {{TOC}}
 
-## More headers related to job parameters and budgets
+### More headers related to job parameters and budgets
 
 Add the following two includes to the list at the start of `sched_demo.c`:
 
@@ -21,7 +21,7 @@ Add the following two includes to the list at the start of `sched_demo.c`:
 
 We will need these headers when managing job- and budget- related information in the scheduler.
 
-## Adding helper functions
+### Adding helper functions
 
 Before diving into the scheduling function, we are going to define two helper functions that will aid in preventing the `schedule()` implementation from becoming too convoluted.
 
@@ -58,7 +58,7 @@ static void demo_requeue(struct task_struct *tsk, struct demo_cpu_state *cpu_sta
 
 Note that `demo_requeue()` uses `__add_ready()`, but not `__add_release()`. This is because `demo_requeue()` will be called only from contexts where the calling thread already holds the lock for the ready queue.
 
-## Adding scheduling logic
+### Adding scheduling logic
 
 Finally, we can define the P-EDF scheduling logic. Conceptually, it follows these three steps:
 
@@ -158,11 +158,11 @@ The next few lines determine whether a preemption / scheduling decision is requi
 
 The final lines carry out the actual scheduling decision. If `prev` needs to be preempted (in the `if (resched)` block), then the previous task is requeued (if required) using `demo_requeue` and a new task is taken from the ready queue. Otherwise, `next` is simply the locally scheduled task, `local_state->scheduled`, which may be `NULL`. The "local state invariant" is maintained by the `local_state->scheduled = next` assignment.
 
-## Testing
+### Testing
 
 With these changes in place, the kernel should compile and boot without problems. However, scheduling is still not possible because all tasks are still being rejected. Before tasks can be accepted, however, we need to add support for task state changes (i.e., self-suspensions).
 
-## Source code
+### Source code
 
 The full code for this step of the tutorial is available [here](./sched_demo_step5.c).
 

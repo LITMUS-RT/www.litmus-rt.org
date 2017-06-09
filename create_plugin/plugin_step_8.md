@@ -27,7 +27,7 @@ Note that `task_cpu(tsk)` is Linux's notion of where the task currently is, wher
 
 The plugin is now fully functional by itself. However, `liblitmus` contains code to make migrating tasks to the right processors (or clusters of processors) easier, and this support code requires additional information from the plugin. In the next step, the plugin is changed to export the required information.
 
-## Source code
+### Source code
 
 The full code for this step of the tutorial is available [here](./sched_demo_step8.c).
 

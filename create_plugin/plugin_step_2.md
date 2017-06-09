@@ -10,7 +10,7 @@ The first step just added an empty file to the LITMUS^RT kernel. In this step, w
 
 {{TOC}}
 
-## Basic scheduler plugin code
+### Basic scheduler plugin code
 
 Modify `sched_demo.c` to contain the following code, which contains a minimal skeleton of a LITMUS^RT scheduler plugin. For now, the plugin does not do anything, apart from registering itself as an available scheduler:
 
@@ -51,7 +51,7 @@ static int __init init_demo(void)
 module_init(init_demo);
 ```
 
-## Explanation of the plugin code
+### Explanation of the plugin code
 
 This stub scheduler implementation is best explained from the bottom to the top line of `sched_demo.c`:
 
@@ -65,7 +65,7 @@ This stub scheduler implementation is best explained from the bottom to the top 
 
  - Finally, the first function in `sched_demo.c` is the `demo_schedule` function, which is our callback for LITMUS^RT's `schedule` event. This function should provide a pointer to the `task_struct` for the task that should begin executing. If the plugin doesn't wish to schedule a real-time task, it can return `NULL` to allow the default Linux scheduler to schedule non-real-time processes. However, it must always call LITMUS^RT's `sched_state_task_picked` function to inform the kernel that a scheduling decision has been made.
 
-## Testing the plugin
+### Testing the plugin
 
 After you have finished adding the code to `sched_demo.c`, re-compile and re-install the kernel. When you reboot, run the following commands as root:
 
@@ -83,7 +83,7 @@ cd liblitmus
 ./rt-spin 10 100 10
 ```
 
-## Source code
+### Source code
 
 The full code for this step of the tutorial is available [here](./sched_demo_step2.c).
 

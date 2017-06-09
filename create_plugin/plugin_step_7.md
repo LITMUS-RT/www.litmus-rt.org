@@ -10,7 +10,7 @@ The scheduling logic so far selects the next job to be scheduled using EDF prior
 
 {{TOC}}
 
-## Preemption check callback
+### Preemption check callback
 
 The preemption check callback is invoked by the `rt_domain_t` code whenever a job is transferred from the release queue to the ready queue (i.e., when a future release is processed). Since the callback is invoked from within the `rt_domain_t` code, the calling thread already holds the ready queue lock.
 
@@ -37,7 +37,7 @@ The preemption check first extracts the containing `struct demo_cpu_state` from 
 
 Note that `state->scheduled` may be `NULL`; this case is transparently handled by `preempt_if_preemptable()`. (The `...if_preemptable()` suffix of the function refers to non-preemptive section support and is of no relevance to this tutorial.)
 
-## Updating the plugin initialization function
+### Updating the plugin initialization function
 
 The preemption check callback must be passed to the `edf_domain_init()` function during plugin initialization. Modify `demo_activate_plugin` to reflect this:
 
@@ -60,7 +60,7 @@ static long demo_activate_plugin(void)
 }
 ```
 
-## Ready queue updates
+### Ready queue updates
 
 Additional preemption checks are required whenever the ready queue may be changed due to resuming or new tasks. For instance, when a higher-priority task resumes, `demo_schedule()` should be invoked immediately if the currently scheduled task has lower priority (or if currently no real-time task is scheduled).
 
@@ -140,11 +140,11 @@ static void demo_task_new(struct task_struct *tsk, int on_runqueue,
 
 Once again, the only change is the addition of the `if (edf_preemption_needed ...` statement.
 
-## Testing
+### Testing
 
 Once again, make sure that the plugin compiles and runs. In the next step, we'll finally let it accept real-time tasks.
 
-## Source code
+### Source code
 
 The full code for this step of the tutorial is available [here](./sched_demo_step7.c).
 
