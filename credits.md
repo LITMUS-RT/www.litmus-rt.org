@@ -26,12 +26,13 @@ While [1] is the first publication on LITMUS^RT, the first public release of LIT
 
 ## Contributors
 
-Many researchers have helped with improving LITMUS^RT over the years. <a href="https://wiki.litmus-rt.org/litmus/Mailinglist">Come join us!</a>
+Many researchers have helped with improving LITMUS^RT over the years. [Come join us](contact.html)!
 
 Current contributors:
 
 - <a href="http://www.mpi-sws.org/~bbb">Björn B. Brandenburg</a> (**maintainer**, MPI-SWS, 2006–)
 - Namhoon Kim (UNC, 2016–)
+- Nathan Otterness (UNC, 2017–)
 
 Inactive contributors:
 
