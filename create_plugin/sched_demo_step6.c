@@ -1,10 +1,11 @@
 #include <linux/module.h>
 #include <linux/percpu.h>
 #include <linux/sched.h>
+#include <litmus/litmus.h>
 #include <litmus/budget.h>
 #include <litmus/edf_common.h>
 #include <litmus/jobs.h>
-#include <litmus/litmus.h>
+#include <litmus/debug_trace.h>
 #include <litmus/preempt.h>
 #include <litmus/rt_domain.h>
 #include <litmus/sched_plugin.h>

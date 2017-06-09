@@ -1,11 +1,12 @@
 #include <linux/module.h>
 #include <linux/percpu.h>
 #include <linux/sched.h>
+#include <litmus/litmus.h>
 #include <litmus/budget.h>
 #include <litmus/edf_common.h>
 #include <litmus/jobs.h>
-#include <litmus/litmus.h>
 #include <litmus/litmus_proc.h>
+#include <litmus/debug_trace.h>
 #include <litmus/preempt.h>
 #include <litmus/rt_domain.h>
 #include <litmus/sched_plugin.h>
@@ -289,6 +290,7 @@ static struct sched_plugin demo_plugin = {
         .admit_task             = demo_admit_task,
         .task_new               = demo_task_new,
         .task_exit              = demo_task_exit,
+        .get_domain_proc_info   = demo_get_domain_proc_info,
         .activate_plugin        = demo_activate_plugin,
         .deactivate_plugin      = demo_deactivate_plugin,
 };

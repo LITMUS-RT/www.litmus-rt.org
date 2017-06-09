@@ -16,7 +16,13 @@ In most modules for the standard Linux kernel, `printk` is generally the go-to c
 
 ## Modifying our basic code to include a TRACE statement
 
-Modify the `demo_admit_task` from step 2 to contain a `TRACE` statement:
+First, add the new header file, needed for the `TRACE` macro, to the list of includes at the start of `sched_demo.c`:
+
+```C
+#include <litmus/debug_trace.h>
+```
+
+Second, modify the `demo_admit_task` from step 2 to contain a `TRACE` statement:
 
 ```C
 static long demo_admit_task(struct task_struct *tsk)
