@@ -10,11 +10,11 @@ We know that the code from step 2 is working due to the `EINVAL` error, but but 
 
 {{TOC}}
 
-## Why not use printk in a LITMUS^RT plugin?
+### Why not use printk in a LITMUS^RT plugin?
 
 In most modules for the standard Linux kernel, `printk` is generally the go-to choice for writing debug messages to the kernel log. `printk`, however, requires some kernel locks and therefore can cause deadlock if we use it within a LITMUS^RT plugin when making scheduling decisions. LITMUS^RT provides the `TRACE` macro instead, which functions identically to `printk` from the programmer's perspective but doesn't require locking.
 
-## Modifying our basic code to include a TRACE statement
+### Modifying our basic code to include a TRACE statement
 
 First, add the new header file, needed for the `TRACE` macro, to the list of includes at the start of `sched_demo.c`:
 
@@ -35,7 +35,7 @@ static long demo_admit_task(struct task_struct *tsk)
 
 In this example, we used `TRACE_TASK`, which takes a `task_struct` pointer in addition to the message to print. It will include information about the task in the log, along with the message.
 
-## Viewing LITMUS^RT trace output
+### Viewing LITMUS^RT trace output
 
 For the `TRACE` macro to work, make sure that you have enabled `TRACE() debugging` when configuring your kernel build (it's under `LITMUS^RT`->`Tracing` in the configuration menu).
 
@@ -82,7 +82,7 @@ SCHED_STATE [P0] 0x1 (TASK_SCHEDULED) -> 0x4 (WILL_SCHEDULE)
 
 Messages like this are the result of the configuration option `CONFIG_PREEMPT_STATE_TRACE`, which can be disabled in the kernel configuration. To do so, disable the option at `LITMUS^RT`->`Tracing`->`Trace preemption state machine transitions`.
 
-## Source code
+### Source code
 
 The full code for this step of the tutorial is available [here](./sched_demo_step3.c).
 
