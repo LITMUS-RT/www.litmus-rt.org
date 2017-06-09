@@ -16,7 +16,7 @@ This page contains links to LITMUS^RT documentation, inluding basic installation
 
 #### User Documentation
 
- - The [LITMUS^RT manual](tutorial/manual.html) provides additional details about how LITMUS^RT and its schedulers work. This page provides more detail about the topics covered in the [basic tutorial](tutorial/index.html).
+ - The [LITMUS^RT manual](tutorial/manual.html) provides additional details about how LITMUS^RT and its schedulers work. This page provides more detail about the topics covered in the [basic tutorial](tutorial/index.html). The manual also covers some of the following guides to some extent.
 
 - The [schedule tracing and visualization tutorial](https://github.com/LITMUS-RT/feather-trace-tools/blob/master/doc/howto-trace-and-analyze-a-schedule.md) explains how to capture, evaluate, and visualize *schedule traces* using LITMUS^RT's `sched_trace` facility.
 
