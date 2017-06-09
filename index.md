@@ -43,7 +43,7 @@ Please refer to the [download](download.html) and [documentation](documentation.
 
 ## Getting Help
 
-To get in contact with the LITMUS^RT community, please use the <a href="https://wiki.litmus-rt.org/litmus/Mailinglist">mailing list</a>.
+To get in contact with the LITMUS^RT community, please use the [mailing list](contact.html).
 
 ## Credit
 
