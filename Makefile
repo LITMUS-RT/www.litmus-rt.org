@@ -1,5 +1,5 @@
 MARKDOWN ?= multimarkdown
-PUBLIC_WEB_DIR ?= /www/sws-websites/www.litmus-rt.org
+PUBLIC_WEB_DIR ?= contact.mpi-sws.org:/www/sws-websites/www.litmus-rt.org
 
 .PHONY: all publish autoupdate clean
 
@@ -16,7 +16,7 @@ clean:
 	rm -f ${HTML_TO_GENERATE}
 
 publish: all
-	@echo '[UP] copying to' ${PUBLIC_WEB_DIR}
+	@echo "[$$(date)] $$(hostname): copying to" ${PUBLIC_WEB_DIR}
 	@rsync -a --delete \
 		--exclude Makefile \
 		--exclude '*.md' \
@@ -31,7 +31,7 @@ publish: all
 autoupdate:
 	@if ! git pull | grep -q 'Already up-to-date.'; \
 	then \
-		echo "[UP] pulled an update on" `date`; \
+		echo "[$$(date)] $$(hostname): pulled an update"; \
 		make publish; \
 	fi
 
