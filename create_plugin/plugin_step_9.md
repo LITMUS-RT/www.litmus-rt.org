@@ -118,6 +118,7 @@ static struct sched_plugin demo_plugin = {
         .get_domain_proc_info   = demo_get_domain_proc_info,
         .activate_plugin        = demo_activate_plugin,
         .deactivate_plugin      = demo_deactivate_plugin,
+        .complete_job           = complete_job,
 };
 ```
 
