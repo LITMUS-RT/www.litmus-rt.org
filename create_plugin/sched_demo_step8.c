@@ -249,6 +249,7 @@ static struct sched_plugin demo_plugin = {
         .task_new               = demo_task_new,
         .task_exit              = demo_task_exit,
         .activate_plugin        = demo_activate_plugin,
+        .complete_job           = complete_job,
 };
 
 static int __init init_demo(void)

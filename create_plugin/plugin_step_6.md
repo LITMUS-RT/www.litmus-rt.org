@@ -121,11 +121,11 @@ static void demo_task_resume(struct task_struct  *tsk)
 
 There are two important things to note. First, on the line assigning `*state = cpu_state_for(...)`, note that the CPU processing the wakeup is not necessarily the CPU that the task is assigned to. This is because tasks are often resumed by interrupts, which (in general) may be handled on any CPU.
 
-Second, note that it may be the case that tsk is still scheduled, which we check using `if (state->scheduled != tsk)`. This can happen if the wakeup happens shortly after the task initiated its self-suspension, which allows the wakeup on a remote CPU to race with the suspension and to be handled before the local CPU managed to process the self-suspension. (Note that the ready queue lock serializes remote wakeups and local scheduling decisions.)
+Second, note that it may be the case that `tsk` is still scheduled, which we check using `if (state->scheduled != tsk)`. This can happen if the wakeup happens shortly after the task initiated its self-suspension, which allows the wakeup on a remote CPU to race with the suspension and to be handled before the local CPU managed to process the self-suspension. (Note that the ready queue lock serializes remote wakeups and local scheduling decisions.)
 
-### Plugin definition
+### Plugin definition and job completion
 
-Finally, update the `struct sched_plugin` instance to include our plugin's new callback functions:
+Finally, update the `struct sched_plugin` instance to include our plugin's new callback functions. Also go ahead and add a callback to run every time a job completes (needed if you use Feather-trace later). Fortunately, a default job-completion callback, `complete_job`, is already defined in `jobs.h` so we only need to add it to the list of callbacks:
 
 ```C
 static struct sched_plugin demo_plugin = {
@@ -136,6 +136,7 @@ static struct sched_plugin demo_plugin = {
         .task_new               = demo_task_new,
         .task_exit              = demo_task_exit,
         .activate_plugin        = demo_activate_plugin,
+        .complete_job           = complete_job,
 };
 ```
 
