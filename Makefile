@@ -8,7 +8,7 @@ HTML_TO_GENERATE := $(subst md,html,${MD})
 
 %.html: %.md inc/*.markdown
 	@echo '[MD]' $< '->' $@
-	@${MARKDOWN} --process-html --full -t html -o $@ $<
+	@${MARKDOWN} --full -t html -o $@ $<
 
 all: ${HTML_TO_GENERATE}
 

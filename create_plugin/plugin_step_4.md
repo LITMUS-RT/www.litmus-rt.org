@@ -112,6 +112,8 @@ This should generate output that includes the following lines (depending on the 
 The full code for this step of the tutorial is available [here](./sched_demo_step4.c).
 
 <div class="nav">
+
 [Previous: Step 3 - `TRACE`](plugin_step_3.html) -
 [Next: Step 5 - Scheduling logic](plugin_step_5.html)
+
 </div>

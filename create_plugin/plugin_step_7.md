@@ -149,6 +149,8 @@ Once again, make sure that the plugin compiles and runs. In the next step, we'll
 The full code for this step of the tutorial is available [here](./sched_demo_step7.c).
 
 <div class="nav">
+
 [Previous: Step 6 - Task state changes](plugin_step_6.html) -
 [Next: Step 8 - Admitting tasks](plugin_step_8.html)
+
 </div>

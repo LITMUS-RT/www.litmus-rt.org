@@ -19,5 +19,7 @@ touch sched_demo.c
 After adding the new source file, add `sched_demo.o` to the `obj-y` list in the `litmus` directory's `Makefile`. If you want, re-build the LITMUS^RT kernel to make sure you didn't make any mistakes.
 
 <div class="nav">
+
 [Next: Step 2 - Stub functions](plugin_step_2.html)
+
 </div>

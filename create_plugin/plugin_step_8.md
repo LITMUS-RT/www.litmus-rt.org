@@ -32,6 +32,8 @@ The plugin is now fully functional by itself. However, `liblitmus` contains code
 The full code for this step of the tutorial is available [here](./sched_demo_step8.c).
 
 <div class="nav">
+
 [Previous: Step 7 - Preemption](plugin_step_7.html) -
 [Next: Step 9 - `/proc` interface](plugin_step_9.html)
+
 </div>

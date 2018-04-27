@@ -87,6 +87,8 @@ Messages like this are the result of the configuration option `CONFIG_PREEMPT_ST
 The full code for this step of the tutorial is available [here](./sched_demo_step3.c).
 
 <div class="nav">
+
 [Previous: Step 2 - Stub functions](plugin_step_2.html) -
 [Next: Step 4 - Per-CPU state](plugin_step_4.html)
+
 </div>

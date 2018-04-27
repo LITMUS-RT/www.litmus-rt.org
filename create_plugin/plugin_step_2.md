@@ -88,6 +88,8 @@ cd liblitmus
 The full code for this step of the tutorial is available [here](./sched_demo_step2.c).
 
 <div class="nav">
+
 [Previous: Step 1 - Adding files](plugin_step_1.html) -
 [Next: Step 3 - `TRACE`](plugin_step_3.html)
+
 </div>

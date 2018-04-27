@@ -149,6 +149,8 @@ Now, you can make sure the plugin still compiles and runs. It still won't admit 
 The full code for this step of the tutorial is available [here](./sched_demo_step6.c).
 
 <div class="nav">
+
 [Previous: Step 5 - Scheduling logic](plugin_step_5.html) -
 [Next: Step 7 - Preemption](plugin_step_7.html)
+
 </div>

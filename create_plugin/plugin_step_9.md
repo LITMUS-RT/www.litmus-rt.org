@@ -148,5 +148,7 @@ The `rtspin` instance in the above sample should terminate after 5 seconds and p
 The full code for this step of the tutorial (the full working plugin) is available [here](./sched_demo.c).
 
 <div class="nav">
+
 [Previous: Step 8 - Admitting tasks](plugin_step_8.html)
+
 </div>

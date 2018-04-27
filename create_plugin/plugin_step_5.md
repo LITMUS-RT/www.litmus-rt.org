@@ -167,6 +167,8 @@ With these changes in place, the kernel should compile and boot without problems
 The full code for this step of the tutorial is available [here](./sched_demo_step5.c).
 
 <div class="nav">
+
 [Previous: Step 4 - Per-CPU state](plugin_step_4.html) -
 [Next: Step 6 - Task state changes](plugin_step_6.html)
+
 </div>
