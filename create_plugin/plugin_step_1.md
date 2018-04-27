@@ -1,5 +1,6 @@
 Title:  Writing a Scheduler Plugin: Step 1
 CSS:    ../inc/format.css
+HTML header:    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/tomorrow-night.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js"></script>
 
 {{../inc/header2.markdown}}
 
@@ -23,3 +24,5 @@ After adding the new source file, add `sched_demo.o` to the `obj-y` list in the 
 [Next: Step 2 - Stub functions](plugin_step_2.html)
 
 </div>
+
+<script>hljs.initHighlightingOnLoad();</script>

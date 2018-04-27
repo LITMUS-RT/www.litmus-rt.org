@@ -1,5 +1,6 @@
 Title:  Writing a Scheduler Plugin: Step 5
 CSS:    ../inc/format.css
+HTML header:    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/tomorrow-night.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js"></script>
 
 {{../inc/header2.markdown}}
 
@@ -172,3 +173,5 @@ The full code for this step of the tutorial is available [here](./sched_demo_ste
 [Next: Step 6 - Task state changes](plugin_step_6.html)
 
 </div>
+
+<script>hljs.initHighlightingOnLoad();</script>
