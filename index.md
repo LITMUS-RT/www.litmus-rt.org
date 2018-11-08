@@ -8,7 +8,7 @@ CSS:    inc/format.css
 
 LITMUS^RT is **a real-time extension of the Linux kernel** with a focus on multiprocessor real-time scheduling and synchronization. The Linux kernel is modified to support the sporadic task model, modular scheduler plugins, and reservation-based scheduling. Clustered, partitioned, and global schedulers are included, and semi-partitioned scheduling is supported as well.
 
-LITMUS^RT has been continuously maintained since 2006 and is still being actively developed (as of 2017).
+LITMUS^RT has been continuously maintained by Björn Brandenburg since 2006, and actively developed until 2017. As of 2018, there are currently no plans to rebase it to newer Linux kernel versions. 
 
 
 ## Goals
@@ -20,7 +20,7 @@ As a secondary goal, LITMUS^RT serves as a **proof of concept**, showing how  pr
 
 ## Non-Goals
 
-LITMUS^RT is a research prototype that is reasonably stable and tested---it works---but we do not have the resources to maintain a rigorous QA regime as it would be expected of a production-quality system suitable for safety- or mission-critical applications.
+LITMUS^RT is a research system that is stable and tested---it works well---but we do not have the resources to maintain a rigorous QA regime as it would be expected of a production-quality system suitable for safety- or mission-critical applications (just as it is the case with most research projects). 
 
 Furthermore, LITMUS^RT's API is not "stable," that is, interfaces and implementations may change without warning between releases. POSIX-compliance is not a goal; the LITMUS^RT-API offers alternate system call interfaces.
 
