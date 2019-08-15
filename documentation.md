@@ -12,11 +12,13 @@ This page contains links to LITMUS^RT documentation, inluding basic installation
 
 - The [installation instructions](installation.html) cover how to compile and install the LITMUS^RT kernel on a standard Linux system.
 
- - The [LITMUS^RT tutorial](tutorial/index.html) provides basic instructions for getting started with using LITMUS^RT, including working with different scheduling plugins and configuring and launching real-time tasks.
+- The [LITMUS^RT tutorial](tutorial/index.html) provides basic instructions for getting started with using LITMUS^RT, including working with different scheduling plugins and configuring and launching real-time tasks.
+
+- A guide for [installing LITMUS^RT on Raspbian OS](doc/litmus-rt-on-raspbian.pdf), contributed by Filip Marković.
 
 #### User Documentation
 
- - The [LITMUS^RT manual](tutorial/manual.html) provides additional details about how LITMUS^RT and its schedulers work. This page provides more detail about the topics covered in the [basic tutorial](tutorial/index.html). The manual also covers some of the following guides to some extent.
+- The [LITMUS^RT manual](tutorial/manual.html) provides additional details about how LITMUS^RT and its schedulers work. This page provides more detail about the topics covered in the [basic tutorial](tutorial/index.html). The manual also covers some of the following guides to some extent.
 
 - The [schedule tracing and visualization tutorial](https://github.com/LITMUS-RT/feather-trace-tools/blob/master/doc/howto-trace-and-analyze-a-schedule.md) explains how to capture, evaluate, and visualize *schedule traces* using LITMUS^RT's `sched_trace` facility.
 
